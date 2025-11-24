@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashionHub - E-commerce Fashion Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: pulse 1.5s ease infinite;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(245, 87, 108, 0.2);
+            border-top-color: #f5576c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Section Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-section:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section:nth-child(4) { transition-delay: 0.4s; }
+        
+        .navbar {
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #525252;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #f5576c;
+        }
+        
+        /* Custom Modal Styles */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .custom-modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .modal-body {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn-primary {
+            background: #f5576c;
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            background: #e0485c;
+            transform: translateY(-2px);
+        }
+        
+        .modal-btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+        
+        .modal-btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .cart-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #f5576c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.9) 0%, rgba(245, 87, 108, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1595665593673-bf1ad72905c0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2xvdGhpbmclMjBzdG9yZXxlbnwwfHwwfHx8MA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='50' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='2'/%3E%3Ccircle cx='60' cy='60' r='30' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background: white;
+            color: #f5576c;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+        
+        .products {
+            padding: 6rem 2rem;
+        }
+        
+        .products .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .about-section {
+            padding: 6rem 2rem;
+            background: #fafaf9;
+            width: 100%;
+        }
+        
+        .about-section .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: #525252;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        
+        .about-content p + p {
+            margin-top: 1rem;
+        }
+        
+        .contact-section {
+            padding: 6rem 2rem;
+            background: white;
+            width: 100%;
+        }
+        
+        .contact-section .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #f5576c;
+            box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1);
+        }
+        
+        .contact-form .cta-button {
+            width: 100%;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #525252;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 40px rgba(245, 87, 108, 0.3);
+            border-color: #f5576c;
+        }
+        
+        .product-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(245, 87, 108, 0.1);
+            z-index: 1;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f5576c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .product-info {
+            padding: 2rem;
+        }
+        
+        .product-category {
+            font-size: 0.875rem;
+            color: #525252;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #0a0a0a;
+        }
+        
+        .product-price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-price {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: #f5576c;
+        }
+        
+        .product-price-old {
+            font-size: 1.125rem;
+            color: #a3a3a3;
+            text-decoration: line-through;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stars {
+            color: #ffd700;
+            font-size: 1rem;
+        }
+        
+        .rating-text {
+            color: #525252;
+            font-size: 0.875rem;
+        }
+        
+        .product-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .product-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(245, 87, 108, 0.4);
+        }
+        
+        .newsletter {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            text-align: center;
+            color: white;
+        }
+        
+        .newsletter-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .newsletter h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-button {
+            padding: 1rem 2rem;
+            background: white;
+            color: #f5576c;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-button:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-link {
+                font-size: 0.875rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo">FASHIONHUB</div>
+            <div class="loader-spinner"></div>
+        </div>
+    </div>
+    <nav class="navbar">
+        <div class="logo">FashionHub</div>
+        <div class="nav-links">
+            <a href="#products" class="nav-link">Shop</a>
+            <a href="#products" class="nav-link">Collections</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+            <div class="cart-icon">
+                🛒
+                <span class="cart-badge">3</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <div class="hero-content">
+            <h1>New Collection 2025</h1>
+            <p class="subtitle">Discover the latest trends in fashion. Express your unique style.</p>
+            <a href="#products" class="cta-button">Shop Now</a>
+        </div>
+    </div>
+    
+    <section class="products fade-in-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-subtitle">Curated for the modern fashionista</p>
+            </div>
+            
+            <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://www.girlhomeshop.com/cdn/shop/products/QQ_20220921085615_b3360c43-799d-4af6-a6a4-6f3bec3b7ca5.png?v=1666059835'); background-size: cover; background-position: center;">
+                    <span class="product-badge">New</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Women's Fashion</div>
+                    <h3 class="product-title">Elegant Evening Dress</h3>
+                    <div class="product-price-container">
+                        <span class="product-price">AED 299</span>
+                        <span class="product-price-old">AED 399</span>
+                    </div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">(124 reviews)</span>
+                    </div>
+                    <button class="product-button">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://sc04.alicdn.com/kf/H24bf96aa1cc24d4cbf6f85c2dfa1e857J.jpg'); background-size: cover; background-position: center;">
+                    <span class="product-badge">Sale</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Men's Fashion</div>
+                    <h3 class="product-title">Classic Business Suit</h3>
+                    <div class="product-price-container">
+                        <span class="product-price">AED 599</span>
+                        <span class="product-price-old">AED 899</span>
+                    </div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">(89 reviews)</span>
+                    </div>
+                    <button class="product-button">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://zed.com.pk/cdn/shop/files/DSC09478.jpg?v=1753511596'); background-size: cover; background-position: center;"></div>
+                <div class="product-info">
+                    <div class="product-category">Casual Wear</div>
+                    <h3 class="product-title">Premium Cotton Shirt</h3>
+                    <div class="product-price-container">
+                        <span class="product-price">AED 149</span>
+                    </div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-text">(67 reviews)</span>
+                    </div>
+                    <button class="product-button">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/84/64/c7/8464c7b7b7f541aaac32186b27e4e296.jpg'); background-size: cover; background-position: center;">
+                    <span class="product-badge">Hot</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Footwear</div>
+                    <h3 class="product-title">Designer Heels</h3>
+                    <div class="product-price-container">
+                        <span class="product-price">AED 449</span>
+                    </div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">(156 reviews)</span>
+                    </div>
+                    <button class="product-button">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/71Dfk6NTq7L._AC_SL1500_.jpg'); background-size: cover; background-position: center;"></div>
+                <div class="product-info">
+                    <div class="product-category">Outerwear</div>
+                    <h3 class="product-title">Winter Coat</h3>
+                    <div class="product-price-container">
+                        <span class="product-price">AED 349</span>
+                        <span class="product-price-old">AED 449</span>
+                    </div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-text">(92 reviews)</span>
+                    </div>
+                    <button class="product-button">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://jafferjees.com/cdn/shop/files/002186_Gold_-_2.jpg?v=1763630750&width=1100'); background-size: cover; background-position: center;">
+                    <span class="product-badge">New</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Accessories</div>
+                    <h3 class="product-title">Designer Handbag</h3>
+                    <div class="product-price-container">
+                        <span class="product-price">AED 799</span>
+                    </div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">(203 reviews)</span>
+                    </div>
+                    <button class="product-button">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    
+    <section class="newsletter fade-in-section">
+        <div class="newsletter-content">
+            <h2>Stay in Style</h2>
+            <p>Subscribe to our newsletter for exclusive offers and fashion updates</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email">
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    
+    <section class="about-section fade-in-section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About FashionHub</h2>
+                <p class="section-subtitle">Your destination for modern fashion</p>
+            </div>
+            <div class="about-content">
+                <p>FashionHub brings you the latest trends in fashion, curated by style experts. We believe that fashion is a form of self-expression and everyone deserves to look and feel their best.</p>
+                <p>From casual wear to formal attire, our collections are designed to meet all your fashion needs with quality and style.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact-section fade-in-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">Have a question? We're here to help</p>
+            </div>
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Message" rows="5" required></textarea>
+                <button type="submit" class="cta-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Custom Modal -->
+    <div id="customModal" class="custom-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header" id="modalHeader">Header</div>
+            <div class="modal-body" id="modalBody">Body</div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Custom Modal Functions
+        function showModal(title, message, buttons = null) {
+            const modal = document.getElementById('customModal');
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+            const footer = document.getElementById('modalFooter');
+            
+            header.innerHTML = title;
+            body.innerHTML = message;
+            
+            if (buttons) {
+                footer.innerHTML = buttons;
+            } else {
+                footer.innerHTML = '<button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>';
+            }
+            
+            modal.classList.add('show');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('show');
+        }
+        
+        function showConfirm(title, message, onConfirm) {
+            const buttons = `
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="closeModal(); ${onConfirm}">Confirm</button>
+            `;
+            showModal(title, message, buttons);
+        }
+        
+        // Close modal on background click
+        document.getElementById('customModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href === '#') return;
+                
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Shopping cart functionality
+        let cart = [];
+        const cartBadge = document.querySelector('.cart-badge');
+        const cartIcon = document.querySelector('.cart-icon');
+        
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems || '';
+            cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+        
+        // Add to cart buttons
+        document.querySelectorAll('.product-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productCard = this.closest('.product-card');
+                const productTitle = productCard.querySelector('.product-title').textContent;
+                const productPrice = productCard.querySelector('.product-price').textContent;
+                
+                // Check if item already in cart
+                const existingItem = cart.find(item => item.title === productTitle);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({
+                        title: productTitle,
+                        price: productPrice,
+                        quantity: 1
+                    });
+                }
+                
+                updateCartBadge();
+                
+                // Visual feedback
+                const originalText = this.textContent;
+                this.textContent = 'Added!';
+                this.style.background = '#10b981';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 1000);
+            });
+        });
+        
+        // Cart icon click - show cart
+        if (cartIcon) {
+            cartIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (cart.length === 0) {
+                    showModal('🛒 Your Cart', '<p style="text-align: center; color: #9ca3af;">Your cart is empty. Add some items!</p>');
+                    return;
+                }
+                
+                let cartHTML = '<div style="margin-bottom: 1.5rem;">';
+                let total = 0;
+                cart.forEach((item, index) => {
+                    const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+                    cartHTML += `
+                        <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #e5e7eb;">
+                            <div>
+                                <strong>${index + 1}. ${item.title}</strong><br>
+                                <span style="color: #9ca3af; font-size: 0.9rem;">${item.price} × ${item.quantity}</span>
+                            </div>
+                            <strong>${item.price}</strong>
+                        </div>
+                    `;
+                    total += price * item.quantity;
+                });
+                cartHTML += `</div><div style="border-top: 2px solid #f5576c; padding-top: 1rem; display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 700;"><span>Total:</span><span style="color: #f5576c;">AED ${total.toFixed(2)}</span></div>`;
+                
+                const buttons = `
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Continue Shopping</button>
+                    <button class="modal-btn modal-btn-primary" onclick="checkoutCart()">Proceed to Checkout</button>
+                `;
+                showModal('🛒 Your Cart', cartHTML, buttons);
+            });
+        }
+        
+        function checkoutCart() {
+            closeModal();
+            setTimeout(() => {
+                showModal('✅ Redirecting...', '<p style="text-align: center;">Redirecting to checkout page...</p><p style="text-align: center; color: #9ca3af; margin-top: 0.5rem; font-size: 0.9rem;">(In a real website, this would redirect to the checkout page)</p>');
+                cart = [];
+                updateCartBadge();
+            }, 300);
+        }
+        
+        // Initialize cart badge
+        updateCartBadge();
+        
+        // Newsletter form handler
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                showModal('✅ Subscribed!', `<p>Thank you for subscribing!</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We've sent a confirmation email to <strong>${email}</strong></p>`);
+                this.reset();
+            });
+        }
+        
+        // Page Loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 500);
+            }
+        });
+        
+        // Section Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

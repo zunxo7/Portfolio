@@ -1,0 +1,35 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fashionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="textShadow3">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#fashionGrad)"/>
+  
+  <!-- Clothing Hanger -->
+  <g transform="translate(400, 140)" opacity="0.15">
+    <path d="M 100 20 L 100 80 L 80 100 L 120 100 Z" fill="white"/>
+    <path d="M 90 20 Q 100 10 110 20" stroke="white" stroke-width="3" fill="none"/>
+  </g>
+  
+  <!-- Fashion Icon (Dress Silhouette) -->
+  <g transform="translate(700, 180)" opacity="0.12">
+    <path d="M 60 0 L 50 40 L 45 100 L 75 100 L 70 40 Z" fill="white"/>
+  </g>
+  
+  <!-- Fashion Text -->
+  <g text-anchor="middle" transform="translate(600, 337.5)">
+    <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="120" font-weight="900" fill="white" opacity="0.98" filter="url(#textShadow3)" letter-spacing="-1">FASHIONHUB</text>
+    <text x="0" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="600" fill="rgba(255,255,255,0.95)" letter-spacing="4">FASHION STORE</text>
+  </g>
+  
+  <!-- Decorative Circles -->
+  <circle cx="200" cy="500" r="15" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="1000" cy="150" r="20" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="150" cy="200" r="8" fill="rgba(255,255,255,0.2)"/>
+  <circle cx="1050" cy="550" r="12" fill="rgba(255,255,255,0.15)"/>
+</svg>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Plus - Medical Clinic Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #10b981;
+            margin-bottom: 1rem;
+            animation: pulse 1.5s ease infinite;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(16, 185, 129, 0.2);
+            border-top-color: #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Section Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-section:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section:nth-child(4) { transition-delay: 0.4s; }
+        
+        .navbar {
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #525252;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #43e97b;
+        }
+        
+        .hero {
+            min-height: 85vh;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='25' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            padding: 1.25rem 3rem;
+            background: white;
+            color: #43e97b;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+        
+        .btn-secondary {
+            padding: 1.25rem 3rem;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: #43e97b;
+            transform: translateY(-2px);
+        }
+        
+        .services {
+            padding: 6rem 2rem;
+        }
+        
+        .services .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #525252;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 40px rgba(67, 233, 123, 0.3);
+            border-color: #43e97b;
+        }
+        
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 8px rgba(67, 233, 123, 0.3));
+        }
+        
+        .service-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0a0a0a;
+        }
+        
+        .service-text {
+            color: #525252;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-link {
+            display: inline-block;
+            color: #43e97b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .service-link:hover {
+            transform: translateX(5px);
+        }
+        
+        .doctors-section {
+            padding: 6rem 2rem;
+            background: #fafaf9;
+            width: 100%;
+        }
+        
+        .doctors-section .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-section {
+            padding: 6rem 2rem;
+            background: white;
+            width: 100%;
+        }
+        
+        .about-section .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: #6b7280;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        
+        .about-content p + p {
+            margin-top: 1rem;
+        }
+        
+        .contact-section {
+            padding: 6rem 2rem;
+            background: #fafaf9;
+            width: 100%;
+        }
+        
+        .contact-section .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #43e97b;
+            box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+        }
+        
+        .contact-form .form-button {
+            width: 100%;
+        }
+        
+        .doctor-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 32px rgba(67, 233, 123, 0.2);
+        }
+        
+        .doctor-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            border: 4px solid white;
+            box-shadow: 0 4px 16px rgba(67, 233, 123, 0.3);
+        }
+        
+        .doctor-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #0a0a0a;
+        }
+        
+        .doctor-specialty {
+            color: #43e97b;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .doctor-experience {
+            color: #525252;
+            font-size: 0.9rem;
+        }
+        
+        .appointment-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .appointment-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .appointment-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        
+        .appointment-text {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+        
+        .appointment-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .form-input {
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #0a0a0a;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            background: white;
+        }
+        
+        .form-button {
+            padding: 1rem 2rem;
+            background: white;
+            color: #43e97b;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            grid-column: 1 / -1;
+        }
+        
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        .emergency-banner {
+            background: #0a0a0a;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .emergency-banner a {
+            color: #43e97b;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        
+        /* Custom Modal Styles */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .custom-modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .modal-body {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn-primary {
+            background: #43e97b;
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            background: #38d96a;
+        }
+        
+        .modal-btn-secondary {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+        
+        .modal-btn-secondary:hover {
+            background: #d1d5db;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-link {
+                font-size: 0.875rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .appointment-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo">HEALTHCARE PLUS</div>
+            <div class="loader-spinner"></div>
+        </div>
+    </div>
+    <div class="emergency-banner">
+        🚨 Emergency? Call us immediately: <a href="tel:+971501234567">+971 50 123 4567</a>
+    </div>
+    
+    <nav class="navbar">
+        <div class="logo">🏥 HealthCare Plus</div>
+        <div class="nav-links">
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#doctors" class="nav-link">Doctors</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Your Health, Our Priority</h1>
+            <p class="subtitle">Professional Healthcare Services • Trusted by Thousands</p>
+            <div class="cta-buttons">
+                <a href="#appointment" class="btn-primary">Book Appointment</a>
+                <a href="#services" class="btn-secondary">Our Services</a>
+            </div>
+        </div>
+    </div>
+    
+    <section class="services fade-in-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Comprehensive healthcare solutions for you and your family</p>
+            </div>
+            
+            <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🩺</div>
+                <h3 class="service-title">General Medicine</h3>
+                <p class="service-text">Comprehensive primary healthcare services including routine checkups, health screenings, and preventive care.</p>
+                <a href="#" class="service-link">Learn More →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🦷</div>
+                <h3 class="service-title">Dental Care</h3>
+                <p class="service-text">Expert dental treatments including cleanings, fillings, root canals, and cosmetic dentistry procedures.</p>
+                <a href="#" class="service-link">Learn More →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3 class="service-title">Eye Care</h3>
+                <p class="service-text">Advanced eye examination, vision correction, and treatment for various eye conditions.</p>
+                <a href="#" class="service-link">Learn More →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💊</div>
+                <h3 class="service-title">Pharmacy</h3>
+                <p class="service-text">Full-service pharmacy with licensed pharmacists available for consultations and prescriptions.</p>
+                <a href="#" class="service-link">Learn More →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🩻</div>
+                <h3 class="service-title">Medical Imaging</h3>
+                <p class="service-text">State-of-the-art diagnostic imaging services including X-rays, ultrasounds, and CT scans.</p>
+                <a href="#" class="service-link">Learn More →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧪</div>
+                <h3 class="service-title">Lab Services</h3>
+                <p class="service-text">Comprehensive laboratory testing with fast and accurate results for all your diagnostic needs.</p>
+                <a href="#" class="service-link">Learn More →</a>
+            </div>
+        </div>
+        </div>
+    </section>
+    
+    <section class="doctors-section fade-in-section" id="doctors">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Doctors</h2>
+                <p class="section-subtitle">Meet our team of experienced healthcare professionals</p>
+            </div>
+            
+            <div class="doctors-grid">
+            <div class="doctor-card">
+                <div class="doctor-avatar">DA</div>
+                <h3 class="doctor-name">Dr. Ahmed Ali</h3>
+                <p class="doctor-specialty">General Medicine</p>
+                <p class="doctor-experience">15+ years experience</p>
+            </div>
+            <div class="doctor-card">
+                <div class="doctor-avatar">SK</div>
+                <h3 class="doctor-name">Dr. Sarah Khan</h3>
+                <p class="doctor-specialty">Dentist</p>
+                <p class="doctor-experience">12+ years experience</p>
+            </div>
+            <div class="doctor-card">
+                <div class="doctor-avatar">MR</div>
+                <h3 class="doctor-name">Dr. Mohammed Rahman</h3>
+                <p class="doctor-specialty">Ophthalmologist</p>
+                <p class="doctor-experience">18+ years experience</p>
+            </div>
+        </div>
+        </div>
+    </section>
+    
+    <section class="appointment-section fade-in-section" id="appointment">
+        <div class="appointment-content">
+            <h2 class="appointment-title">Book Your Appointment</h2>
+            <p class="appointment-text">Schedule a consultation with our expert medical team today</p>
+            <form class="appointment-form">
+                <input type="text" class="form-input" placeholder="Full Name" required>
+                <input type="email" class="form-input" placeholder="Email Address" required>
+                <input type="tel" class="form-input" placeholder="Phone Number" required>
+                <select class="form-input" required>
+                    <option>Select Service</option>
+                    <option>General Medicine</option>
+                    <option>Dental Care</option>
+                    <option>Eye Care</option>
+                    <option>Pharmacy</option>
+                    <option>Lab Services</option>
+                </select>
+                <input type="date" class="form-input" required>
+                <input type="time" class="form-input" required>
+                <button type="submit" class="form-button">Book Appointment</button>
+            </form>
+            <p style="opacity: 0.9;">Or call us at <a href="tel:+1234567890" style="color: white; font-weight: 700;">+1 (234) 567-890</a></p>
+        </div>
+    </section>
+    
+    <section class="about-section fade-in-section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About HealthCare Plus</h2>
+                <p class="section-subtitle">Your trusted healthcare provider</p>
+            </div>
+            <div class="about-content">
+                <p>HealthCare Plus is dedicated to providing comprehensive, high-quality healthcare services to our community. With a team of experienced doctors and modern facilities, we're committed to your health and well-being.</p>
+                <p>Our mission is to make healthcare accessible, affordable, and personalized for every patient. We believe in preventive care, early diagnosis, and compassionate treatment.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact-section fade-in-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">Get in touch with our team</p>
+            </div>
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <textarea placeholder="Message" rows="5" required></textarea>
+                <button type="submit" class="form-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Custom Modal -->
+    <div id="customModal" class="custom-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header" id="modalHeader">Header</div>
+            <div class="modal-body" id="modalBody">Body</div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Custom Modal Functions
+        function showModal(title, message, buttons = null) {
+            const modal = document.getElementById('customModal');
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+            const footer = document.getElementById('modalFooter');
+            
+            header.innerHTML = title;
+            body.innerHTML = message;
+            
+            if (buttons) {
+                footer.innerHTML = buttons;
+            } else {
+                footer.innerHTML = '<button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>';
+            }
+            
+            modal.classList.add('show');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('show');
+        }
+        
+        // Close modal on background click
+        document.getElementById('customModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href === '#') return;
+                
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Appointment form handler with validation
+        const appointmentForm = document.querySelector('.appointment-form');
+        if (appointmentForm) {
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = this.querySelector('input[type="text"]').value;
+                const email = this.querySelector('input[type="email"]').value;
+                const phone = this.querySelector('input[type="tel"]').value;
+                const service = this.querySelector('select').value;
+                const date = this.querySelector('input[type="date"]').value;
+                const time = this.querySelector('input[type="time"]').value;
+                
+                // Check if date is in the future
+                const selectedDate = new Date(date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (selectedDate < today) {
+                    showModal('⚠️ Invalid Date', '<p>Please select a future date for your appointment.</p>');
+                    return;
+                }
+                
+                if (service === 'Select Service') {
+                    showModal('⚠️ Service Required', '<p>Please select a service before booking.</p>');
+                    return;
+                }
+                
+                showModal('✅ Appointment Scheduled!', `
+                    <p>Thank you, <strong>${name}</strong>!</p>
+                    <div style="margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 8px;">
+                        <p><strong>Service:</strong> ${service}</p>
+                        <p><strong>Date:</strong> ${date}</p>
+                        <p><strong>Time:</strong> ${time}</p>
+                    </div>
+                    <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 1rem;">We will send a confirmation to <strong>${email}</strong> shortly.</p>
+                `);
+                this.reset();
+            });
+        }
+        
+        // Service card click handler
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceName = this.querySelector('.service-title').textContent;
+                const buttons = `
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button class="modal-btn modal-btn-primary" onclick="closeModal(); bookService('${serviceName}')">Book Appointment</button>
+                `;
+                showModal(`🩺 ${serviceName}`, `<p>Would you like to book an appointment for <strong>${serviceName}</strong>?</p>`, buttons);
+            });
+        });
+        
+        function bookService(serviceName) {
+                    document.getElementById('appointment').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Auto-select service in form
+                    setTimeout(() => {
+                        const select = document.querySelector('.appointment-form select');
+                        if (select) {
+                            Array.from(select.options).forEach(option => {
+                                if (option.text.includes(serviceName.split(' ')[0])) {
+                                    select.value = option.value;
+                                }
+                            });
+                        }
+                    }, 500);
+                }
+        // Set .service-card cursor after all logic and listeners
+        document.querySelectorAll('.service-card').forEach(function(card) {
+            card.style.cursor = 'pointer';
+        });
+        
+        // Page Loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 500);
+            }
+        });
+        
+        // Section Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

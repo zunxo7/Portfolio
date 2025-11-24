@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zun Digital - Dubai Web Developer creating modern, affordable business websites. Fast delivery, clean design.">
+    <meta name="keywords" content="Dubai Web Developer, Web Design Dubai, Affordable Websites, Business Websites">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Zun Digital">
+    <meta property="og:description" content="Dubai-based web developer creating modern, clean business websites">
+    <meta property="og:image" content="./assets/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Zun Digital — Dubai Web Developer">
+    <meta property="twitter:description" content="Dubai-based web developer creating modern, clean business websites">
+    <meta property="twitter:image" content="./assets/og-image.jpg">
+    
+    <title>Zun Digital</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <svg width="150" height="40" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg" class="logo-img">
+                    <text x="2" y="28" font-family="Poppins, sans-serif" font-size="28" font-weight="900" fill="currentColor" letter-spacing="-0.02em">Zun</text>
+                    <text x="64" y="28" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="currentColor" opacity="0.6" letter-spacing="0.1em" id="digital-text">DIGITAL</text>
+                    <line x1="64" y1="32" x2="132" y2="32" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+                </svg>
+            </a>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Live Demos</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-container">
+            <div class="hero-left">
+                <h1 class="hero-title">
+                    <span class="typing-text" id="typingText"></span>
+                    <span class="cursor">|</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Dubai-based web developer creating modern, clean business websites.
+                    Fast, affordable, and designed to convert.
+                </p>
+                
+                <div class="hero-metrics">
+                    <div class="metric-block">
+                        <div class="metric-number">50+</div>
+                        <div class="metric-label">Websites delivered</div>
+                    </div>
+                    <div class="metric-block">
+                        <div class="metric-number">100%</div>
+                        <div class="metric-label">Client satisfaction</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Live Demos</a>
+                    <a href="https://wa.me/971565579357" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">WhatsApp Me</a>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <div class="hero-image-container">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-main-image"></div>
+                        <div class="floating-thumb thumb-1"></div>
+                        <div class="floating-thumb thumb-2"></div>
+                        <div class="floating-thumb thumb-3"></div>
+                        <div class="accent-drawing"></div>
+                        <button class="circle-arrow" aria-label="Scroll to live demos">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">About Me</h2>
+            </div>
+            <div class="about-content fade-in">
+                <p class="about-text">
+                    I'm Zun, a Dubai-based web developer. I specialize in creating 
+                    <strong>affordable, fast, and modern websites</strong> for small businesses. 
+                    My focus is on clean design, exceptional performance, 
+                    and websites that truly convert visitors into customers.
+                </p>
+                <p class="about-text">
+                    Every project is crafted with attention to detail, ensuring your business 
+                    stands out online without breaking the bank. From landing pages to full 
+                    business websites, I deliver results that matter.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demos Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Live Demos</h2>
+                <p class="section-subtitle" style="margin-top: 1rem; opacity: 0.8;">Demo websites showcasing my work and design capabilities</p>
+            </div>
+            <div class="projects-grid">
+                <a href="./projects/project1.html" class="project-card fade-in" target="_blank">
+                    <div class="project-image">
+                        <svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="fitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+                                </linearGradient>
+                                <pattern id="grid1" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                                </pattern>
+                                <filter id="textShadow1">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.5"/>
+                                </filter>
+                            </defs>
+                            <rect width="1200" height="675" fill="url(#fitGrad1)"/>
+                            <rect width="1200" height="675" fill="url(#grid1)"/>
+                            <g transform="translate(500, 150)" opacity="0.15">
+                                <rect x="0" y="90" width="200" height="20" rx="10" fill="white"/>
+                                <circle cx="10" cy="100" r="30" fill="white"/>
+                                <circle cx="190" cy="100" r="30" fill="white"/>
+                            </g>
+                            <g text-anchor="middle" transform="translate(600, 337.5)">
+                                <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="130" font-weight="900" fill="white" opacity="0.95" filter="url(#textShadow1)" letter-spacing="-2">FITZONE</text>
+                                <text x="0" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="600" fill="rgba(255,255,255,0.85)" letter-spacing="4">FITNESS STUDIO</text>
+                            </g>
+                            <circle cx="200" cy="500" r="4" fill="white" opacity="0.3"/>
+                            <circle cx="1000" cy="150" r="6" fill="white" opacity="0.2"/>
+                            <rect x="150" y="550" width="100" height="3" rx="1.5" fill="white" opacity="0.2"/>
+                            <rect x="950" y="100" width="80" height="3" rx="1.5" fill="white" opacity="0.2"/>
+                        </svg>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">FitZone</h3>
+                        <p class="project-description">Fitness studio landing page design.</p>
+                    </div>
+                </a>
+                
+                <a href="./projects/project2.html" class="project-card fade-in" target="_blank">
+                    <div class="project-image">
+                        <svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="spiceGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="textShadow2">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+                                </filter>
+                            </defs>
+                            <rect width="1200" height="675" fill="url(#spiceGrad2)"/>
+                            <g transform="translate(500, 120)" opacity="0.12">
+                                <ellipse cx="100" cy="80" rx="120" ry="40" fill="white"/>
+                                <ellipse cx="100" cy="80" rx="100" ry="35" fill="white"/>
+                            </g>
+                            <circle cx="300" cy="200" r="8" fill="rgba(255,255,255,0.4)"/>
+                            <circle cx="900" cy="250" r="10" fill="rgba(255,255,255,0.3)"/>
+                            <circle cx="250" cy="400" r="6" fill="rgba(255,255,255,0.5)"/>
+                            <circle cx="1000" cy="450" r="7" fill="rgba(255,255,255,0.4)"/>
+                            <g text-anchor="middle" transform="translate(600, 337.5)">
+                                <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="115" font-weight="900" fill="white" opacity="0.98" filter="url(#textShadow2)" letter-spacing="-1">SPICEHOUSE</text>
+                                <text x="0" y="50" font-family="Arial, sans-serif" font-size="38" font-weight="600" fill="rgba(255,255,255,0.95)" letter-spacing="5">RESTAURANT</text>
+                            </g>
+                            <rect x="300" y="420" width="200" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+                            <rect x="700" y="420" width="200" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+                        </svg>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">SpiceHouse</h3>
+                        <p class="project-description">Restaurant business website design.</p>
+                    </div>
+                </a>
+                
+                <a href="./projects/project3.html" class="project-card fade-in" target="_blank">
+                    <div class="project-image">
+                        <svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="fashionGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="textShadow3">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+                                </filter>
+                            </defs>
+                            <rect width="1200" height="675" fill="url(#fashionGrad3)"/>
+                            <g transform="translate(400, 140)" opacity="0.15">
+                                <path d="M 100 20 L 100 80 L 80 100 L 120 100 Z" fill="white"/>
+                                <path d="M 90 20 Q 100 10 110 20" stroke="white" stroke-width="3" fill="none"/>
+                            </g>
+                            <g transform="translate(700, 180)" opacity="0.12">
+                                <path d="M 60 0 L 50 40 L 45 100 L 75 100 L 70 40 Z" fill="white"/>
+                            </g>
+                            <g text-anchor="middle" transform="translate(600, 337.5)">
+                                <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="120" font-weight="900" fill="white" opacity="0.98" filter="url(#textShadow3)" letter-spacing="-1">FASHIONHUB</text>
+                                <text x="0" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="600" fill="rgba(255,255,255,0.95)" letter-spacing="4">FASHION STORE</text>
+                            </g>
+                            <circle cx="200" cy="500" r="15" fill="rgba(255,255,255,0.1)"/>
+                            <circle cx="1000" cy="150" r="20" fill="rgba(255,255,255,0.08)"/>
+                            <circle cx="150" cy="200" r="8" fill="rgba(255,255,255,0.2)"/>
+                            <circle cx="1050" cy="550" r="12" fill="rgba(255,255,255,0.15)"/>
+                        </svg>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">FashionHub</h3>
+                        <p class="project-description">E-commerce fashion store design.</p>
+                    </div>
+                </a>
+                
+                <a href="./projects/project4.html" class="project-card fade-in" target="_blank">
+                    <div class="project-image">
+                        <svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="propertyGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="textShadow4">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+                                </filter>
+                            </defs>
+                            <rect width="1200" height="675" fill="url(#propertyGrad4)"/>
+                            <g transform="translate(480, 160)" opacity="0.15">
+                                <rect x="75" y="80" width="150" height="100" fill="white"/>
+                                <path d="M 50 80 L 150 20 L 250 80 Z" fill="white"/>
+                                <rect x="115" y="120" width="30" height="60" fill="white"/>
+                                <circle cx="130" cy="130" r="5" fill="white"/>
+                            </g>
+                            <g transform="translate(720, 210)" opacity="0.12">
+                                <rect x="50" y="100" width="80" height="80" fill="white"/>
+                                <rect x="70" y="120" width="15" height="15" fill="white"/>
+                                <rect x="95" y="120" width="15" height="15" fill="white"/>
+                                <rect x="70" y="145" width="15" height="15" fill="white"/>
+                                <rect x="95" y="145" width="15" height="15" fill="white"/>
+                            </g>
+                            <g text-anchor="middle" transform="translate(600, 337.5)">
+                                <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="110" font-weight="900" fill="white" opacity="0.98" filter="url(#textShadow4)" letter-spacing="-1">PROPERTYHUB</text>
+                                <text x="0" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="600" fill="rgba(255,255,255,0.95)" letter-spacing="4">REAL ESTATE</text>
+                            </g>
+                            <rect x="200" y="450" width="120" height="3" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+                            <rect x="880" y="500" width="100" height="3" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+                            <circle cx="150" cy="150" r="6" fill="rgba(255,255,255,0.2)"/>
+                            <circle cx="1050" cy="550" r="8" fill="rgba(255,255,255,0.25)"/>
+                        </svg>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">PropertyHub</h3>
+                        <p class="project-description">Real estate listing website design.</p>
+                    </div>
+                </a>
+                
+                <a href="./projects/project5.html" class="project-card fade-in" target="_blank">
+                    <div class="project-image">
+                        <svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="healthGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#43e97b;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#38f9d7;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="textShadow5">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+                                </filter>
+                            </defs>
+                            <rect width="1200" height="675" fill="url(#healthGrad5)"/>
+                            <g transform="translate(500, 150)" opacity="0.15">
+                                <rect x="95" y="30" width="30" height="100" rx="5" fill="white"/>
+                                <rect x="30" y="75" width="160" height="30" rx="5" fill="white"/>
+                            </g>
+                            <g transform="translate(700, 220)" opacity="0.12">
+                                <path d="M 60 40 C 40 20, 10 20, 10 50 C 10 70, 60 110, 60 110 C 60 110, 110 70, 110 50 C 110 20, 80 20, 60 40 Z" fill="white"/>
+                            </g>
+                            <g text-anchor="middle" transform="translate(600, 337.5)">
+                                <text x="0" y="-10" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="100" font-weight="900" fill="white" opacity="0.98" filter="url(#textShadow5)" letter-spacing="-1">HEALTHCARE</text>
+                                <text x="0" y="50" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="45" font-weight="900" fill="white" opacity="0.95" filter="url(#textShadow5)" letter-spacing="3">PLUS</text>
+                            </g>
+                            <circle cx="200" cy="500" r="12" fill="rgba(255,255,255,0.15)"/>
+                            <circle cx="1000" cy="150" r="10" fill="rgba(255,255,255,0.2)"/>
+                            <circle cx="150" cy="200" r="6" fill="rgba(255,255,255,0.25)"/>
+                            <circle cx="1050" cy="550" r="8" fill="rgba(255,255,255,0.2)"/>
+                            <rect x="250" y="450" width="100" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+                            <rect x="850" y="500" width="120" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+                        </svg>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">HealthCare Plus</h3>
+                        <p class="project-description">Medical clinic website design.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Skills</h2>
+            </div>
+            
+            <div class="skills-categories fade-in">
+                <div class="skill-category">
+                    <h3 class="category-title">Technical Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="skill-name">HTML</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                    <path d="M2 17l10 5 10-5"></path>
+                                    <path d="M2 12l10 5 10-5"></path>
+                                </svg>
+                            </div>
+                            <div class="skill-name">CSS</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                            </div>
+                            <div class="skill-name">JavaScript</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="category-title">Services</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                            </div>
+                            <div class="skill-name">Landing Pages</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <div class="skill-name">Business Websites</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div class="skill-name">UI/UX Design</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="skill-name">SEO Basics</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                            </div>
+                            <div class="skill-name">Fast Delivery</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content fade-in">
+                <h2 class="section-title">Let's Work Together</h2>
+                <p class="contact-text">
+                    Ready to build your next website? Get in touch via WhatsApp for a quick quote.
+                </p>
+                <a href="https://wa.me/971565579357" target="_blank" rel="noopener noreferrer" class="btn btn-cta">
+                    WhatsApp Me
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Zun Digital. Dubai-based web developer.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

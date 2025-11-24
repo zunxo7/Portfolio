@@ -1,0 +1,34 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="spiceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="textShadow2">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#spiceGrad)"/>
+  
+  <!-- Plate/Dish -->
+  <g transform="translate(500, 120)" opacity="0.12">
+    <ellipse cx="100" cy="80" rx="120" ry="40" fill="white"/>
+    <ellipse cx="100" cy="80" rx="100" ry="35" fill="white"/>
+  </g>
+  
+  <!-- Spice/Seasoning Icons -->
+  <circle cx="300" cy="200" r="8" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="900" cy="250" r="10" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="250" cy="400" r="6" fill="rgba(255,255,255,0.5)"/>
+  <circle cx="1000" cy="450" r="7" fill="rgba(255,255,255,0.4)"/>
+  
+  <!-- Restaurant Text -->
+  <g text-anchor="middle" transform="translate(600, 337.5)">
+    <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="115" font-weight="900" fill="white" opacity="0.98" filter="url(#textShadow2)" letter-spacing="-1">SPICE HOUSE</text>
+    <text x="0" y="50" font-family="Arial, sans-serif" font-size="38" font-weight="600" fill="rgba(255,255,255,0.95)" letter-spacing="5">RESTAURANT</text>
+  </g>
+  
+  <!-- Decorative Lines -->
+  <rect x="300" y="420" width="200" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+  <rect x="700" y="420" width="200" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+</svg>

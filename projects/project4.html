@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub - Real Estate Listing Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafaf9;
+            color: #0a0a0a;
+            line-height: 1.6;
+        }
+        
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fafaf9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #2563eb;
+            margin-bottom: 1rem;
+            animation: pulse 1.5s ease infinite;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(37, 99, 235, 0.2);
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Section Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-section:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section:nth-child(4) { transition-delay: 0.4s; }
+        
+        .navbar {
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #525252;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #4facfe;
+        }
+        
+        .hero {
+            min-height: 80vh;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50 Q25 20 50 50 T100 50' stroke='rgba(255,255,255,0.1)' stroke-width='2' fill='none'/%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .search-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-input {
+            padding: 1rem;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234facfe' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+        
+        .filter-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        .filter-input:hover {
+            border-color: #4facfe;
+        }
+        
+        .search-button {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+        
+        .properties {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .agents-section {
+            padding: 6rem 2rem;
+            background: white;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .agent-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .agent-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(79, 172, 254, 0.2);
+            border-color: #4facfe;
+        }
+        
+        .agent-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #4facfe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .agent-name {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .agent-specialty {
+            color: #4facfe;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .agent-experience {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .about-section {
+            padding: 6rem 2rem;
+            background: #f9fafb;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: #6b7280;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        
+        .contact-section {
+            padding: 6rem 2rem;
+            background: white;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #525252;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .property-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 40px rgba(79, 172, 254, 0.2);
+            border-color: #4facfe;
+        }
+        
+        .property-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .property-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(79, 172, 254, 0.1);
+            z-index: 1;
+        }
+        
+        .property-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #4facfe;
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .property-info {
+            padding: 2rem;
+        }
+        
+        .property-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+        
+        .property-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #525252;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .property-details {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem 0;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .detail-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .detail-value {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #0a0a0a;
+        }
+        
+        .detail-label {
+            font-size: 0.875rem;
+            color: #525252;
+        }
+        
+        .property-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        
+        .property-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #4facfe;
+        }
+        
+        .property-button {
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .property-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(79, 172, 254, 0.4);
+        }
+        
+        /* Custom Modal Styles */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .custom-modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-body {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn-primary {
+            background: #4facfe;
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            background: #00d4fe;
+            transform: translateY(-2px);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .features-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .features-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .features-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 3rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-item {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-text {
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-link {
+                font-size: 0.875rem;
+            }
+            
+            .search-filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .property-footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: stretch;
+            }
+            
+            .property-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo">PROPERTYHUB</div>
+            <div class="loader-spinner"></div>
+        </div>
+    </div>
+    <nav class="navbar">
+        <div class="logo">🏠 PropertyHub</div>
+        <div class="nav-links">
+            <a href="#properties" class="nav-link">Properties</a>
+            <a href="#agents" class="nav-link">Agents</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Find Your Dream Home</h1>
+            <p class="subtitle">Premier Real Estate Agency • Your Home Awaits</p>
+            
+            <div class="search-section">
+                <div class="search-filters">
+                    <select class="filter-input" id="locationFilter">
+                        <option>Location</option>
+                        <option>Downtown District</option>
+                        <option>Waterfront Area</option>
+                        <option>Green Valley</option>
+                        <option>City Center</option>
+                        <option>Riverside</option>
+                        <option>Hillside</option>
+                    </select>
+                    <select class="filter-input">
+                        <option>Property Type</option>
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Villa</option>
+                        <option>Plot</option>
+                    </select>
+                    <select class="filter-input">
+                        <option>Price Range</option>
+                        <option>Under $500K</option>
+                        <option>$500K - $1M</option>
+                        <option>$1M - $2M</option>
+                        <option>Above $2M</option>
+                    </select>
+                    <select class="filter-input">
+                        <option>Bedrooms</option>
+                        <option>1 Bedroom</option>
+                        <option>2 Bedrooms</option>
+                        <option>3 Bedrooms</option>
+                        <option>4+ Bedrooms</option>
+                    </select>
+                </div>
+                <button class="search-button">Search Properties</button>
+            </div>
+        </div>
+    </div>
+    
+    <section class="properties fade-in-section" id="properties">
+        <div class="section-header">
+            <h2 class="section-title">Featured Properties</h2>
+            <p class="section-subtitle">Premium listings in prime locations</p>
+        </div>
+        
+        <div class="properties-grid">
+            <div class="property-card">
+                <div class="property-image" style="background-image: url('https://webberstudio.com/wp-content/uploads/2023/02/Stunning-House-Design.jpg'); background-size: cover; background-position: center;">
+                    <span class="property-badge">Featured</span>
+                </div>
+                <div class="property-info">
+                    <div class="property-header">
+                        <div>
+                            <h3 class="property-title">Modern Villa</h3>
+                            <div class="property-location">
+                                📍 Downtown District
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">🛏️</div>
+                            <div class="detail-value">4</div>
+                            <div class="detail-label">Bedrooms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🚿</div>
+                            <div class="detail-value">3</div>
+                            <div class="detail-label">Bathrooms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">📐</div>
+                            <div class="detail-value">3,500</div>
+                            <div class="detail-label">sqft</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🚗</div>
+                            <div class="detail-value">2</div>
+                            <div class="detail-label">Parking</div>
+                        </div>
+                    </div>
+                    <div class="property-footer">
+                        <div class="property-price">$850K</div>
+                        <button class="property-button">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="property-card">
+                <div class="property-image" style="background-image: url('https://nzarchitects.com.pk/wp-content/uploads/2023/02/traditional-house-design-g-10-islamabad-by-nz-architects-thumb.jpg'); background-size: cover; background-position: center;">
+                    <span class="property-badge">New</span>
+                </div>
+                <div class="property-info">
+                    <div class="property-header">
+                        <div>
+                            <h3 class="property-title">Luxury Apartment</h3>
+                            <div class="property-location">
+                                📍 Waterfront Area
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">🛏️</div>
+                            <div class="detail-value">3</div>
+                            <div class="detail-label">Bedrooms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🚿</div>
+                            <div class="detail-value">2</div>
+                            <div class="detail-label">Bathrooms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">📐</div>
+                            <div class="detail-value">2,200</div>
+                            <div class="detail-label">sqft</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🚗</div>
+                            <div class="detail-value">1</div>
+                            <div class="detail-label">Parking</div>
+                        </div>
+                    </div>
+                    <div class="property-footer">
+                        <div class="property-price">$450K</div>
+                        <button class="property-button">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="property-card">
+                <div class="property-image" style="background-image: url('https://thermohouse.ie/wp-content/uploads/2019/04/hero-image.jpg'); background-size: cover; background-position: center;">
+                    <span class="property-badge">Premium</span>
+                </div>
+                <div class="property-info">
+                    <div class="property-header">
+                        <div>
+                            <h3 class="property-title">Family House</h3>
+                            <div class="property-location">
+                                📍 Green Valley
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">🛏️</div>
+                            <div class="detail-value">5</div>
+                            <div class="detail-label">Bedrooms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🚿</div>
+                            <div class="detail-value">4</div>
+                            <div class="detail-label">Bathrooms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">📐</div>
+                            <div class="detail-value">4,000</div>
+                            <div class="detail-label">sqft</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🚗</div>
+                            <div class="detail-value">3</div>
+                            <div class="detail-label">Parking</div>
+                        </div>
+                    </div>
+                    <div class="property-footer">
+                        <div class="property-price">$950K</div>
+                        <button class="property-button">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features-section fade-in-section" id="features">
+        <div class="features-content">
+            <h2 class="features-title">Why Choose PropertyHub</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">✅</div>
+                    <h3 class="feature-title">Verified Listings</h3>
+                    <p class="feature-text">All properties are verified and authenticated by our team</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤝</div>
+                    <h3 class="feature-title">Expert Agents</h3>
+                    <p class="feature-text">Work with experienced real estate professionals</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure Transactions</h3>
+                    <p class="feature-text">Safe and transparent property buying process</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">24/7 Support</h3>
+                    <p class="feature-text">Round-the-clock assistance for all your queries</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="agents-section fade-in-section" id="agents">
+        <div class="section-header">
+            <h2 class="section-title">Our Agents</h2>
+            <p class="section-subtitle">Meet our expert real estate professionals</p>
+        </div>
+        <div class="agents-grid">
+            <div class="agent-card">
+                <div class="agent-avatar">JD</div>
+                <h3 class="agent-name">John Doe</h3>
+                <p class="agent-specialty">Senior Agent</p>
+                <p class="agent-experience">10+ years experience</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-avatar">SM</div>
+                <h3 class="agent-name">Sarah Miller</h3>
+                <p class="agent-specialty">Luxury Properties</p>
+                <p class="agent-experience">8+ years experience</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-avatar">RK</div>
+                <h3 class="agent-name">Robert Kim</h3>
+                <p class="agent-specialty">Commercial Properties</p>
+                <p class="agent-experience">12+ years experience</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about-section fade-in-section" id="about">
+        <div class="section-header">
+            <h2 class="section-title">About PropertyHub</h2>
+            <p class="section-subtitle">Your trusted real estate partner</p>
+        </div>
+        <div class="about-content">
+            <p>PropertyHub has been helping clients find their dream homes and investment properties for over a decade. Our team of experienced agents is dedicated to providing exceptional service and finding the perfect property for you.</p>
+            <p style="margin-top: 1rem;">Whether you're buying, selling, or renting, we're here to make your real estate journey smooth and successful.</p>
+        </div>
+    </section>
+    
+    <section class="contact-section fade-in-section" id="contact">
+        <div class="section-header">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">Get in touch with our team</p>
+        </div>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <input type="tel" placeholder="Phone Number" required>
+            <textarea placeholder="Message" rows="5" required></textarea>
+            <button type="submit" class="search-button">Send Message</button>
+        </form>
+    </section>
+    
+    <!-- Custom Modal -->
+    <div id="customModal" class="custom-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header" id="modalHeader">Header</div>
+            <div class="modal-body" id="modalBody">Body</div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Custom Modal Functions
+        function showModal(title, message, buttons = null) {
+            const modal = document.getElementById('customModal');
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+            const footer = document.getElementById('modalFooter');
+            
+            header.innerHTML = title;
+            body.innerHTML = message;
+            
+            if (buttons) {
+                footer.innerHTML = buttons;
+            } else {
+                footer.innerHTML = '<button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>';
+            }
+            
+            modal.classList.add('show');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('show');
+        }
+        
+        // Close modal on background click
+        document.getElementById('customModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href === '#') return;
+                
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Property data for filtering (matching the order in HTML)
+        const properties = [
+            { title: 'Modern Villa', location: 'Downtown District', type: 'Villa', bedrooms: 4, price: 850000 },
+            { title: 'Luxury Apartment', location: 'Waterfront Area', type: 'Apartment', bedrooms: 3, price: 450000 },
+            { title: 'Premium Villa', location: 'Green Valley', type: 'Villa', bedrooms: 5, price: 950000 }
+        ];
+        
+        // Search form handler
+        const searchButton = document.querySelector('.search-button');
+        const searchFilters = document.querySelectorAll('.search-filters');
+        
+        if (searchButton) {
+            searchButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const filterInputs = document.querySelectorAll('.filter-input');
+                const locationFilter = filterInputs[0]?.value || 'Location';
+                const typeFilter = filterInputs[1]?.value || 'Property Type';
+                const priceFilter = filterInputs[2]?.value || 'Price Range';
+                const bedroomFilter = filterInputs[3]?.value || 'Bedrooms';
+                
+                const propertyCards = document.querySelectorAll('.property-card');
+                let visibleCount = 0;
+                
+                propertyCards.forEach((card, index) => {
+                    const property = properties[index];
+                    if (!property) return;
+                    
+                    // Check if any filter is active
+                    const hasLocationFilter = locationFilter !== 'Location';
+                    const hasTypeFilter = typeFilter !== 'Property Type';
+                    const hasPriceFilter = priceFilter !== 'Price Range';
+                    const hasBedroomFilter = bedroomFilter !== 'Bedrooms';
+                    const hasAnyFilter = hasLocationFilter || hasTypeFilter || hasPriceFilter || hasBedroomFilter;
+                    
+                    // If no filter is selected, show all properties
+                    if (!hasAnyFilter) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                        return;
+                    }
+                    
+                    let show = false;
+                    
+                    // Location filter (dropdown) - OR logic: only need to match one filter
+                    if (hasLocationFilter && locationFilter === property.location) {
+                        show = true;
+                    }
+                    
+                    // Type filter
+                    if (hasTypeFilter && typeFilter === property.type) {
+                        show = true;
+                    }
+                    
+                    // Price filter
+                    if (hasPriceFilter) {
+                        const priceRanges = {
+                            'Under $500K': p => p.price < 500000,
+                            '$500K - $1M': p => p.price >= 500000 && p.price < 1000000,
+                            '$1M - $2M': p => p.price >= 1000000 && p.price < 2000000,
+                            'Above $2M': p => p.price >= 2000000
+                        };
+                        if (priceRanges[priceFilter] && priceRanges[priceFilter](property)) {
+                            show = true;
+                        }
+                    }
+                    
+                    // Bedroom filter
+                    if (hasBedroomFilter) {
+                        if (bedroomFilter.includes('4+')) {
+                            if (property.bedrooms >= 4) {
+                                show = true;
+                            }
+                        } else {
+                            const bedroomCount = parseInt(bedroomFilter);
+                            if (property.bedrooms === bedroomCount) {
+                                show = true;
+                            }
+                        }
+                    }
+                    
+                    if (show) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Scroll to results
+                document.getElementById('properties').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Show message if no results
+                if (visibleCount === 0) {
+                    setTimeout(() => {
+                        showModal('🔍 No Results', '<p>No properties found matching your criteria.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">Please try different filters.</p>');
+                    }, 300);
+                } else {
+                    setTimeout(() => {
+                        showModal('✅ Search Results', `<p>Found <strong>${visibleCount}</strong> propert${visibleCount === 1 ? 'y' : 'ies'} matching your search!</p>`);
+                    }, 300);
+                }
+            });
+        }
+        
+        // Property button handlers
+        document.querySelectorAll('.property-button').forEach((button, index) => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const property = properties[index];
+                if (property) {
+                    showModal(`🏠 ${property.title}`, `
+                        <div style="line-height: 1.8;">
+                            <p><strong>Location:</strong> ${property.location}</p>
+                            <p><strong>Type:</strong> ${property.type}</p>
+                            <p><strong>Bedrooms:</strong> ${property.bedrooms}</p>
+                            <p><strong>Price:</strong> <span style="color: #4facfe; font-weight: 700;">$${property.price.toLocaleString()}</span></p>
+                        </div>
+                    `);
+                }
+            });
+        });
+        
+        // Page Loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 500);
+            }
+        });
+        
+        // Section Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

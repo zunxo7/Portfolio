@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitZone - Fitness Studio Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #dc2626;
+            margin-bottom: 1rem;
+            animation: pulse 1.5s ease infinite;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(220, 38, 38, 0.2);
+            border-top-color: #dc2626;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Section Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-section:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section:nth-child(4) { transition-delay: 0.4s; }
+        
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%),
+                        url('https://www.inmotionoc.com/wp-content/uploads/2020/07/first-time-at-the-gym.jpg');
+            background-size: 200% 200%, cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.85) 0%, rgba(0, 0, 0, 0.9) 100%);
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%, center; }
+            50% { background-position: 100% 50%, center; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: white;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            opacity: 0.9;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+            color: #dc2626;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #dc2626;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .hero-content {
+            text-align: center;
+            margin-top: 8rem;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            line-height: 1.1;
+        }
+        
+        .highlight {
+            color: #dc2626;
+            text-shadow: 0 0 30px rgba(220, 38, 38, 0.8);
+        }
+        
+        .subtitle {
+            font-size: clamp(1.25rem, 2vw, 1.75rem);
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            color: white;
+            font-weight: 300;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            padding: 1.25rem 3rem;
+            background: #dc2626;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.5);
+            border: 2px solid #dc2626;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(220, 38, 38, 0.8);
+            background: #ef4444;
+            border-color: #ef4444;
+        }
+        
+        .btn-secondary {
+            padding: 1.25rem 3rem;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: #0a0a0a;
+            transform: translateY(-2px);
+        }
+        
+        .stats {
+            padding: 6rem 2rem;
+            background: #0a0a0a;
+            border-top: 1px solid #262626;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .stat-item {
+            position: relative;
+        }
+        
+        .stat-item::before {
+            display: none;
+        }
+        
+        .stat-item h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        }
+        
+        .stat-item p {
+            color: #a3a3a3;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        
+        .features {
+            padding: 6rem 2rem;
+            background: #171717;
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #a3a3a3;
+            font-size: 1.25rem;
+            margin-bottom: 4rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: #0a0a0a;
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            border: 2px solid #262626;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: #dc2626;
+            transition: height 0.3s ease;
+        }
+        
+        .feature-card:hover::before {
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: #dc2626;
+            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 8px rgba(220, 38, 38, 0.4));
+        }
+        
+        .feature-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .feature-text {
+            color: #a3a3a3;
+            line-height: 1.8;
+        }
+        
+        .gallery-section {
+            padding: 6rem 2rem;
+            background: #0a0a0a;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            aspect-ratio: 4/3;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #262626;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: #dc2626;
+            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.4);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .classes-section {
+            padding: 6rem 2rem;
+            background: #0a0a0a;
+        }
+        
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+        
+        .class-card {
+            background: #171717;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid #262626;
+            transition: all 0.3s ease;
+        }
+        
+        .class-card:hover {
+            border-color: #dc2626;
+            transform: translateY(-4px);
+        }
+        
+        .class-title {
+            color: #dc2626;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .class-desc {
+            color: #a3a3a3;
+            margin-bottom: 1rem;
+        }
+        
+        .class-time {
+            color: #737373;
+            font-size: 0.9rem;
+        }
+        
+        .pricing-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #171717 100%);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+        
+        .pricing-card {
+            background: #171717;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            border: 2px solid #262626;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card.featured {
+            border-color: #dc2626;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card:hover {
+            border-color: #dc2626;
+            transform: translateY(-8px);
+        }
+        
+        .plan-name {
+            color: white;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .plan-price {
+            color: #dc2626;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-price span {
+            font-size: 1rem;
+            color: #737373;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-features li {
+            color: #a3a3a3;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #262626;
+        }
+        
+        .plan-button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-button:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+        
+        .contact-section {
+            padding: 6rem 2rem;
+            background: #0a0a0a;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 3rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            background: #171717;
+            border: 2px solid #262626;
+            padding: 1rem;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+        
+        .contact-button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-button:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+        
+        /* Custom Modal Styles */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .custom-modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: #0a0a0a;
+            border: 2px solid #262626;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(220, 38, 38, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .modal-body {
+            color: #e5e7eb;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        .modal-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .modal-btn-primary {
+            background: white;
+            color: #0a0a0a;
+            border: 2px solid white;
+        }
+        .modal-btn-primary:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+        }
+        .modal-btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+        .modal-btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .testimonials {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #171717 100%);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            background: #171717;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 2px solid #262626;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            border-color: #dc2626;
+            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.2);
+        }
+        
+        .testimonial-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #fafafa;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: #dc2626;
+            position: absolute;
+            top: -1rem;
+            left: -0.5rem;
+            opacity: 0.3;
+            font-family: serif;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid #dc2626;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+        }
+        
+        .author-info h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+        
+        .author-info p {
+            color: #dc2626;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content {
+                margin-top: 4rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo">FITZONE</div>
+            <div class="loader-spinner"></div>
+        </div>
+    </div>
+    <div class="hero">
+        <nav>
+            <div class="logo">FitZone</div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#classes" class="nav-link">Classes</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <div class="hero-content">
+                <h1>Transform Your <span class="highlight">Body</span></h1>
+                <p class="subtitle">Premier Fitness Studio • Where Strength Meets Style</p>
+                <div class="cta-buttons">
+                    <a href="#pricing" class="btn-primary">Start Your Journey</a>
+                    <a href="#classes" class="btn-secondary">View Classes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="stats fade-in-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>Active Members</p>
+            </div>
+            <div class="stat-item">
+                <h3>20+</h3>
+                <p>Expert Trainers</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Weekly Classes</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Access Available</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features fade-in-section" id="features">
+        <h2 class="section-title">Why Choose FitZone</h2>
+        <p class="section-subtitle">Everything you need to achieve your fitness goals</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💪</div>
+                <h3 class="feature-title">Personal Training</h3>
+                <p class="feature-text">One-on-one sessions with certified trainers who create customized workout plans tailored to your goals and fitness level.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏋️</div>
+                <h3 class="feature-title">Modern Equipment</h3>
+                <p class="feature-text">State-of-the-art fitness equipment from leading brands, maintained daily for optimal performance and safety.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧘</div>
+                <h3 class="feature-title">Group Classes</h3>
+                <p class="feature-text">Join our dynamic group classes including yoga, HIIT, spinning, and more. Motivating atmosphere guaranteed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💧</div>
+                <h3 class="feature-title">Recovery Zone</h3>
+                <p class="feature-text">Relax and recover in our sauna, steam room, and massage therapy area after your workout.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Mobile App</h3>
+                <p class="feature-text">Track your progress, book classes, and connect with trainers through our comprehensive mobile app.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🥗</div>
+                <h3 class="feature-title">Nutrition Guidance</h3>
+                <p class="feature-text">Get personalized nutrition plans from our certified dietitians to complement your fitness journey.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="gallery-section fade-in-section" id="gallery">
+        <h2 class="section-title">Our Facility</h2>
+        <p class="section-subtitle">State-of-the-art equipment and world-class amenities</p>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://www.inmotionoc.com/wp-content/uploads/2020/07/first-time-at-the-gym.jpg" alt="Gym facility">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.anytimefitness.co.in/wp-content/uploads/2023/02/Gym-Regimen.jpg" alt="Gym equipment">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3ltfGVufDB8fDB8fHww" alt="Fitness training">
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.prod.website-files.com/660390f9909d8fed3755312d/66d1f92f2bf32a90ee7ec007_Gym%20photo%201.PNG" alt="Gym training">
+            </div>
+            <div class="gallery-item">
+                <img src="https://img.freepik.com/free-photo/low-angle-view-unrecognizable-muscular-build-man-preparing-lifting-barbell-health-club_637285-2497.jpg?semt=ais_hybrid&w=740&q=80" alt="Weight lifting">
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials fade-in-section" id="testimonials">
+        <h2 class="section-title">Success Stories</h2>
+        <p class="section-subtitle">Hear from our members</p>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">FitZone transformed my life! I've lost 30kg in 6 months and feel stronger than ever. The trainers are amazing and the community is so supportive.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SA</div>
+                    <div class="author-info">
+                        <h4>Sarah Ahmed</h4>
+                        <p>Member since 2023</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Best gym in the city! The facilities are top-notch, and the staff goes above and beyond. I love the variety of classes available.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MK</div>
+                    <div class="author-info">
+                        <h4>Mohammed Khan</h4>
+                        <p>Member since 2022</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">I've tried many gyms, but FitZone is different. The personal training program helped me reach my fitness goals faster than I imagined.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">LM</div>
+                    <div class="author-info">
+                        <h4>Lisa Martinez</h4>
+                        <p>Member since 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="classes-section fade-in-section" id="classes">
+        <h2 class="section-title">Our Classes</h2>
+        <p class="section-subtitle">Choose from a variety of fitness classes</p>
+        <div class="classes-grid">
+            <div class="class-card">
+                <h3 class="class-title">HIIT Training</h3>
+                <p class="class-desc">High-intensity interval training for maximum calorie burn</p>
+                <div class="class-time">Mon, Wed, Fri • 6:00 PM</div>
+            </div>
+            <div class="class-card">
+                <h3 class="class-title">Yoga Flow</h3>
+                <p class="class-desc">Restorative yoga sessions for flexibility and mindfulness</p>
+                <div class="class-time">Tue, Thu • 7:00 AM</div>
+            </div>
+            <div class="class-card">
+                <h3 class="class-title">Spinning</h3>
+                <p class="class-desc">High-energy cycling classes with music</p>
+                <div class="class-time">Daily • 5:30 PM</div>
+            </div>
+            <div class="class-card">
+                <h3 class="class-title">Strength Training</h3>
+                <p class="class-desc">Build muscle and increase strength</p>
+                <div class="class-time">Mon, Wed, Fri • 7:00 PM</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pricing-section fade-in-section" id="pricing">
+        <h2 class="section-title">Membership Plans</h2>
+        <p class="section-subtitle">Choose the plan that fits your fitness journey</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="plan-name">Basic</h3>
+                <div class="plan-price">$49<span>/month</span></div>
+                <ul class="plan-features">
+                    <li>Access to gym equipment</li>
+                    <li>2 group classes per week</li>
+                    <li>Locker access</li>
+                </ul>
+                <button class="plan-button">Choose Plan</button>
+            </div>
+            <div class="pricing-card featured">
+                <h3 class="plan-name">Premium</h3>
+                <div class="plan-price">$99<span>/month</span></div>
+                <ul class="plan-features">
+                    <li>Unlimited gym access</li>
+                    <li>Unlimited group classes</li>
+                    <li>1 personal training session</li>
+                    <li>Nutrition consultation</li>
+                </ul>
+                <button class="plan-button">Choose Plan</button>
+            </div>
+            <div class="pricing-card">
+                <h3 class="plan-name">Elite</h3>
+                <div class="plan-price">$149<span>/month</span></div>
+                <ul class="plan-features">
+                    <li>Everything in Premium</li>
+                    <li>4 personal training sessions</li>
+                    <li>Recovery zone access</li>
+                    <li>Priority booking</li>
+                </ul>
+                <button class="plan-button">Choose Plan</button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact-section fade-in-section" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Ready to start your fitness journey? Contact us today</p>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <input type="tel" placeholder="Phone Number" required>
+            <textarea placeholder="Message" rows="5" required></textarea>
+            <button type="submit" class="contact-button">Send Message</button>
+        </form>
+    </section>
+    
+    <!-- Custom Modal -->
+    <div id="customModal" class="custom-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header" id="modalHeader">Header</div>
+            <div class="modal-body" id="modalBody">Body</div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Custom Modal Functions
+        function showModal(title, message, buttons = null) {
+            const modal = document.getElementById('customModal');
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+            const footer = document.getElementById('modalFooter');
+            
+            header.innerHTML = title;
+            body.innerHTML = message;
+            
+            if (buttons) {
+                footer.innerHTML = buttons;
+            } else {
+                footer.innerHTML = '<button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>';
+            }
+            
+            modal.classList.add('show');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('show');
+        }
+        
+        function showConfirm(title, message, onConfirm) {
+            const buttons = `
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="closeModal(); ${onConfirm}">Confirm</button>
+            `;
+            showModal(title, message, buttons);
+        }
+        
+        // Close modal on background click
+        document.getElementById('customModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href === '#') return;
+                
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Class booking functionality
+        document.querySelectorAll('.class-card').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function() {
+                const className = this.querySelector('.class-title').textContent;
+                const classTime = this.querySelector('.class-time').textContent;
+                
+                const classNameEncoded = encodeURIComponent(className);
+                const classTimeEncoded = encodeURIComponent(classTime);
+                const buttons = `
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button class="modal-btn modal-btn-primary" onclick="closeModal(); bookClass('${classNameEncoded}', '${classTimeEncoded}')">Confirm Booking</button>
+                `;
+                showModal(`🏋️ Book ${className}`, `<p><strong>Time:</strong> ${classTime}</p><p style="margin-top: 1rem;">Would you like to proceed with booking?</p>`, buttons);
+            });
+        });
+        
+        function bookClass(classNameEncoded, classTimeEncoded) {
+            const className = decodeURIComponent(classNameEncoded);
+            const classTime = decodeURIComponent(classTimeEncoded);
+            setTimeout(() => {
+                showModal('✅ Class Booked!', `<p>Great! You've successfully booked <strong>${className}</strong>.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We'll send you a confirmation email with all the details.</p>`);
+            }, 300);
+        };
+        
+        // Pricing plan selection
+        document.querySelectorAll('.plan-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const planCard = this.closest('.pricing-card');
+                const planName = planCard.querySelector('.plan-name').textContent;
+                const planPrice = planCard.querySelector('.plan-price').textContent;
+                
+                const planNameEncoded = encodeURIComponent(planName);
+                const planPriceEncoded = encodeURIComponent(planPrice);
+                const buttons = `
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button class="modal-btn modal-btn-primary" onclick="closeModal(); selectPlan('${planNameEncoded}', '${planPriceEncoded}')">Select Plan</button>
+                `;
+                showModal(`💳 Select ${planName} Plan`, `<p><strong>Price:</strong> ${planPrice}</p><p style="margin-top: 1rem;">Would you like to proceed with this membership?</p>`, buttons);
+            });
+        });
+        
+        function selectPlan(planNameEncoded, planPriceEncoded) {
+            const planName = decodeURIComponent(planNameEncoded);
+            const planPrice = decodeURIComponent(planPriceEncoded);
+            setTimeout(() => {
+                showModal('🎉 Membership Selected!', `<p>Congratulations! You've selected the <strong>${planName} Plan</strong>.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">You'll be redirected to complete your registration.</p>`);
+            }, 300);
+        }
+        
+        // Contact form handler
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                showModal('✅ Message Sent!', '<p>Thank you! Your message has been sent.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will get back to you soon.</p>');
+                this.reset();
+            });
+        }
+        
+        // Page Loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 500);
+            }
+        });
+        
+        // Section Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

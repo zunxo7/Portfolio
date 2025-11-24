@@ -1,0 +1,35 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    </pattern>
+    <filter id="textShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#fitGrad)"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+  
+  <!-- Dumbbell Icon -->
+  <g transform="translate(500, 150)" opacity="0.15">
+    <rect x="0" y="90" width="200" height="20" rx="10" fill="white"/>
+    <circle cx="10" cy="100" r="30" fill="white"/>
+    <circle cx="190" cy="100" r="30" fill="white"/>
+  </g>
+  
+  <!-- Fitness Text -->
+  <g text-anchor="middle" transform="translate(600, 337.5)">
+    <text x="0" y="0" font-family="'Arial Black', 'Helvetica', sans-serif" font-size="130" font-weight="900" fill="white" opacity="0.95" filter="url(#textShadow)" letter-spacing="-2">FITZONE</text>
+    <text x="0" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="600" fill="rgba(255,255,255,0.85)" letter-spacing="4">FITNESS STUDIO</text>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <circle cx="200" cy="500" r="4" fill="white" opacity="0.3"/>
+  <circle cx="1000" cy="150" r="6" fill="white" opacity="0.2"/>
+  <rect x="150" y="550" width="100" height="3" rx="1.5" fill="white" opacity="0.2"/>
+  <rect x="950" y="100" width="80" height="3" rx="1.5" fill="white" opacity="0.2"/>
+</svg>
