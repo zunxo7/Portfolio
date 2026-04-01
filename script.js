@@ -65,7 +65,7 @@ html.setAttribute('data-theme', currentTheme);
 function updateThemeIcon(theme) {
     const themeIcon = themeToggle.querySelector('.theme-icon');
     if (themeIcon) {
-        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        themeIcon.innerHTML = theme === 'dark' ? '<i class="ph ph-sun"></i>' : '<i class="ph ph-moon"></i>';
     }
 }
 
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder.style.justifyContent = 'center';
             placeholder.style.color = 'white';
             placeholder.style.fontSize = '3rem';
-            placeholder.textContent = '🎨';
+            placeholder.innerHTML = '<i class="ph ph-palette" style="font-size:3rem;"></i>';
             
             this.parentNode.replaceChild(placeholder, this);
         });

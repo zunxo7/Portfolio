@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpiceHouse - Restaurant Website Design</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <style>
         * {
             margin: 0;
@@ -696,7 +697,7 @@
 <body>
     <div class="hero">
         <nav>
-            <div class="logo">🍛 SpiceHouse</div>
+            <div class="logo"><i class="ph ph-fork-knife"></i> SpiceHouse</div>
             <div class="nav-links">
                 <a href="#menu" class="nav-link">Menu</a>
                 <a href="#about" class="nav-link">About</a>
@@ -806,7 +807,7 @@
     
     <section class="about-section fade-in-section" id="about">
         <div class="about-content">
-            <div class="about-image">🍽️</div>
+            <div class="about-image"><i class="ph ph-fork-knife"></i></div>
             <div class="about-text">
                 <h2>Our Story</h2>
                 <p>For over three decades, SpiceHouse has been serving authentic cuisine. Our family recipes, passed down through generations, bring you true traditional flavors.</p>
@@ -998,7 +999,7 @@
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                    showModal('✅ Message Sent!', '<p>Thank you! Your message has been sent.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will get back to you soon.</p>');
+                    showModal('<i class="ph ph-check-circle"></i> Message Sent!', '<p>Thank you! Your message has been sent.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will get back to you soon.</p>');
                 this.reset();
             });
         }
@@ -1008,7 +1009,7 @@
         if (reservationForm) {
             reservationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                    showModal('✅ Reservation Booked!', '<p>Thank you! Your reservation has been booked.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will send you a confirmation email shortly.</p>');
+                    showModal('<i class="ph ph-check-circle"></i> Reservation Booked!', '<p>Thank you! Your reservation has been booked.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will send you a confirmation email shortly.</p>');
                 this.reset();
             });
         }

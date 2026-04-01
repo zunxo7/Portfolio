@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FashionHub - E-commerce Fashion Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <style>
         * {
             margin: 0;
@@ -713,7 +714,7 @@
             <a href="#about" class="nav-link">About</a>
             <a href="#contact" class="nav-link">Contact</a>
             <div class="cart-icon">
-                🛒
+                <i class="ph ph-shopping-cart"></i>
                 <span class="cart-badge">3</span>
             </div>
         </div>
@@ -765,7 +766,7 @@
                         <span class="product-price-old">AED 399</span>
                     </div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="stars"><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i></span>
                         <span class="rating-text">(124 reviews)</span>
                     </div>
                     <button class="product-button">Add to Cart</button>
@@ -784,7 +785,7 @@
                         <span class="product-price-old">AED 899</span>
                     </div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="stars"><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i></span>
                         <span class="rating-text">(89 reviews)</span>
                     </div>
                     <button class="product-button">Add to Cart</button>
@@ -800,7 +801,7 @@
                         <span class="product-price">AED 149</span>
                     </div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="stars"><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star" style="color:#f59e0b"></i></span>
                         <span class="rating-text">(67 reviews)</span>
                     </div>
                     <button class="product-button">Add to Cart</button>
@@ -818,7 +819,7 @@
                         <span class="product-price">AED 449</span>
                     </div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="stars"><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i></span>
                         <span class="rating-text">(156 reviews)</span>
                     </div>
                     <button class="product-button">Add to Cart</button>
@@ -835,7 +836,7 @@
                         <span class="product-price-old">AED 449</span>
                     </div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="stars"><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star" style="color:#f59e0b"></i></span>
                         <span class="rating-text">(92 reviews)</span>
                     </div>
                     <button class="product-button">Add to Cart</button>
@@ -853,7 +854,7 @@
                         <span class="product-price">AED 799</span>
                     </div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="stars"><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i><i class="ph ph-star-fill" style="color:#f59e0b"></i></span>
                         <span class="rating-text">(203 reviews)</span>
                     </div>
                     <button class="product-button">Add to Cart</button>
@@ -1051,7 +1052,7 @@
             cartIcon.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (cart.length === 0) {
-                    showModal('🛒 Your Cart', '<p style="text-align: center; color: #9ca3af;">Your cart is empty. Add some items!</p>');
+                    showModal('<i class="ph ph-shopping-cart"></i> Your Cart', '<p style="text-align: center; color: #9ca3af;">Your cart is empty. Add some items!</p>');
                     return;
                 }
                 
@@ -1076,14 +1077,14 @@
                     <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Continue Shopping</button>
                     <button class="modal-btn modal-btn-primary" onclick="checkoutCart()">Proceed to Checkout</button>
                 `;
-                showModal('🛒 Your Cart', cartHTML, buttons);
+                showModal('<i class="ph ph-shopping-cart"></i> Your Cart', cartHTML, buttons);
             });
         }
         
         function checkoutCart() {
             closeModal();
             setTimeout(() => {
-                showModal('✅ Redirecting...', '<p style="text-align: center;">Redirecting to checkout page...</p><p style="text-align: center; color: #9ca3af; margin-top: 0.5rem; font-size: 0.9rem;">(In a real website, this would redirect to the checkout page)</p>');
+                showModal('<i class="ph ph-check-circle"></i> Redirecting...', '<p style="text-align: center;">Redirecting to checkout page...</p><p style="text-align: center; color: #9ca3af; margin-top: 0.5rem; font-size: 0.9rem;">(In a real website, this would redirect to the checkout page)</p>');
                 cart = [];
                 updateCartBadge();
             }, 300);
@@ -1098,7 +1099,7 @@
             newsletterForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const email = this.querySelector('input[type="email"]').value;
-                showModal('✅ Subscribed!', `<p>Thank you for subscribing!</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We've sent a confirmation email to <strong>${email}</strong></p>`);
+                showModal('<i class="ph ph-check-circle"></i> Subscribed!', `<p>Thank you for subscribing!</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We've sent a confirmation email to <strong>${email}</strong></p>`);
                 this.reset();
             });
         }

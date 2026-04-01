@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitZone - Fitness Studio Landing Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <style>
         * {
             margin: 0;
@@ -963,32 +964,32 @@
         
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">💪</div>
+                <div class="feature-icon"><i class="ph ph-barbell"></i></div>
                 <h3 class="feature-title">Personal Training</h3>
                 <p class="feature-text">One-on-one sessions with certified trainers who create customized workout plans tailored to your goals and fitness level.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🏋️</div>
+                <div class="feature-icon"><i class="ph ph-barbell"></i></div>
                 <h3 class="feature-title">Modern Equipment</h3>
                 <p class="feature-text">State-of-the-art fitness equipment from leading brands, maintained daily for optimal performance and safety.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🧘</div>
+                <div class="feature-icon"><i class="ph ph-person-simple"></i></div>
                 <h3 class="feature-title">Group Classes</h3>
                 <p class="feature-text">Join our dynamic group classes including yoga, HIIT, spinning, and more. Motivating atmosphere guaranteed.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💧</div>
+                <div class="feature-icon"><i class="ph ph-drop"></i></div>
                 <h3 class="feature-title">Recovery Zone</h3>
                 <p class="feature-text">Relax and recover in our sauna, steam room, and massage therapy area after your workout.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📱</div>
+                <div class="feature-icon"><i class="ph ph-device-mobile"></i></div>
                 <h3 class="feature-title">Mobile App</h3>
                 <p class="feature-text">Track your progress, book classes, and connect with trainers through our comprehensive mobile app.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🥗</div>
+                <div class="feature-icon"><i class="ph ph-leaf"></i></div>
                 <h3 class="feature-title">Nutrition Guidance</h3>
                 <p class="feature-text">Get personalized nutrition plans from our certified dietitians to complement your fitness journey.</p>
             </div>
@@ -1248,7 +1249,7 @@
                     <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
                     <button class="modal-btn modal-btn-primary" onclick="closeModal(); bookClass('${classNameEncoded}', '${classTimeEncoded}')">Confirm Booking</button>
                 `;
-                showModal(`🏋️ Book ${className}`, `<p><strong>Time:</strong> ${classTime}</p><p style="margin-top: 1rem;">Would you like to proceed with booking?</p>`, buttons);
+                showModal(`<i class="ph ph-barbell"></i> Book ${className}`, `<p><strong>Time:</strong> ${classTime}</p><p style="margin-top: 1rem;">Would you like to proceed with booking?</p>`, buttons);
             });
         });
         
@@ -1256,7 +1257,7 @@
             const className = decodeURIComponent(classNameEncoded);
             const classTime = decodeURIComponent(classTimeEncoded);
             setTimeout(() => {
-                showModal('✅ Class Booked!', `<p>Great! You've successfully booked <strong>${className}</strong>.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We'll send you a confirmation email with all the details.</p>`);
+                showModal('<i class="ph ph-check-circle"></i> Class Booked!', `<p>Great! You've successfully booked <strong>${className}</strong>.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We'll send you a confirmation email with all the details.</p>`);
             }, 300);
         };
         
@@ -1274,7 +1275,7 @@
                     <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
                     <button class="modal-btn modal-btn-primary" onclick="closeModal(); selectPlan('${planNameEncoded}', '${planPriceEncoded}')">Select Plan</button>
                 `;
-                showModal(`💳 Select ${planName} Plan`, `<p><strong>Price:</strong> ${planPrice}</p><p style="margin-top: 1rem;">Would you like to proceed with this membership?</p>`, buttons);
+                showModal(`<i class="ph ph-credit-card"></i> Select ${planName} Plan`, `<p><strong>Price:</strong> ${planPrice}</p><p style="margin-top: 1rem;">Would you like to proceed with this membership?</p>`, buttons);
             });
         });
         
@@ -1282,7 +1283,7 @@
             const planName = decodeURIComponent(planNameEncoded);
             const planPrice = decodeURIComponent(planPriceEncoded);
             setTimeout(() => {
-                showModal('🎉 Membership Selected!', `<p>Congratulations! You've selected the <strong>${planName} Plan</strong>.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">You'll be redirected to complete your registration.</p>`);
+                showModal('<i class="ph ph-confetti"></i> Membership Selected!', `<p>Congratulations! You've selected the <strong>${planName} Plan</strong>.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">You'll be redirected to complete your registration.</p>`);
             }, 300);
         }
         
@@ -1291,7 +1292,7 @@
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                showModal('✅ Message Sent!', '<p>Thank you! Your message has been sent.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will get back to you soon.</p>');
+                showModal('<i class="ph ph-check-circle"></i> Message Sent!', '<p>Thank you! Your message has been sent.</p><p style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">We will get back to you soon.</p>');
                 this.reset();
             });
         }

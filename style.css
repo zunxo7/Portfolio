@@ -411,7 +411,10 @@ body {
 }
 
 .hero-main-image::after {
-    content: '👨‍💻';
+    content: '';
+}
+
+.hero-dev-icon {
     position: absolute;
     top: 50%;
     left: 50%;

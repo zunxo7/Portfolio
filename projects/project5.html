@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthCare Plus - Medical Clinic Website</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <style>
         * {
             margin: 0;
@@ -720,11 +721,11 @@
 </head>
 <body>
     <div class="emergency-banner">
-        🚨 Emergency? Call us immediately: <a href="tel:+971501234567">+971 50 123 4567</a>
+        <i class="ph ph-siren"></i> Emergency? Call us immediately: <a href="tel:+971501234567">+971 50 123 4567</a>
     </div>
     
     <nav class="navbar">
-        <div class="logo">🏥 HealthCare Plus</div>
+        <div class="logo"><i class="ph ph-hospital"></i> HealthCare Plus</div>
         <div class="nav-links">
             <a href="#services" class="nav-link">Services</a>
             <a href="#doctors" class="nav-link">Doctors</a>
@@ -771,37 +772,37 @@
             
             <div class="services-grid">
             <div class="service-card">
-                <div class="service-icon">🩺</div>
+                <div class="service-icon"><i class="ph ph-stethoscope"></i></div>
                 <h3 class="service-title">General Medicine</h3>
                 <p class="service-text">Comprehensive primary healthcare services including routine checkups, health screenings, and preventive care.</p>
                 <a href="#" class="service-link">Learn More →</a>
             </div>
             <div class="service-card">
-                <div class="service-icon">🦷</div>
+                <div class="service-icon"><i class="ph ph-tooth"></i></div>
                 <h3 class="service-title">Dental Care</h3>
                 <p class="service-text">Expert dental treatments including cleanings, fillings, root canals, and cosmetic dentistry procedures.</p>
                 <a href="#" class="service-link">Learn More →</a>
             </div>
             <div class="service-card">
-                <div class="service-icon">👁️</div>
+                <div class="service-icon"><i class="ph ph-eye"></i></div>
                 <h3 class="service-title">Eye Care</h3>
                 <p class="service-text">Advanced eye examination, vision correction, and treatment for various eye conditions.</p>
                 <a href="#" class="service-link">Learn More →</a>
             </div>
             <div class="service-card">
-                <div class="service-icon">💊</div>
+                <div class="service-icon"><i class="ph ph-pill"></i></div>
                 <h3 class="service-title">Pharmacy</h3>
                 <p class="service-text">Full-service pharmacy with licensed pharmacists available for consultations and prescriptions.</p>
                 <a href="#" class="service-link">Learn More →</a>
             </div>
             <div class="service-card">
-                <div class="service-icon">🩻</div>
+                <div class="service-icon"><i class="ph ph-scan"></i></div>
                 <h3 class="service-title">Medical Imaging</h3>
                 <p class="service-text">State-of-the-art diagnostic imaging services including X-rays, ultrasounds, and CT scans.</p>
                 <a href="#" class="service-link">Learn More →</a>
             </div>
             <div class="service-card">
-                <div class="service-icon">🧪</div>
+                <div class="service-icon"><i class="ph ph-flask"></i></div>
                 <h3 class="service-title">Lab Services</h3>
                 <p class="service-text">Comprehensive laboratory testing with fast and accurate results for all your diagnostic needs.</p>
                 <a href="#" class="service-link">Learn More →</a>
@@ -1005,16 +1006,16 @@
                 today.setHours(0, 0, 0, 0);
                 
                 if (selectedDate < today) {
-                    showModal('⚠️ Invalid Date', '<p>Please select a future date for your appointment.</p>');
+                    showModal('<i class="ph ph-warning"></i> Invalid Date', '<p>Please select a future date for your appointment.</p>');
                     return;
                 }
                 
                 if (service === 'Select Service') {
-                    showModal('⚠️ Service Required', '<p>Please select a service before booking.</p>');
+                    showModal('<i class="ph ph-warning"></i> Service Required', '<p>Please select a service before booking.</p>');
                     return;
                 }
                 
-                showModal('✅ Appointment Scheduled!', `
+                showModal('<i class="ph ph-check-circle"></i> Appointment Scheduled!', `
                     <p>Thank you, <strong>${name}</strong>!</p>
                     <div style="margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 8px;">
                         <p><strong>Service:</strong> ${service}</p>
@@ -1035,7 +1036,7 @@
                     <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
                     <button class="modal-btn modal-btn-primary" onclick="closeModal(); bookService('${serviceName}')">Book Appointment</button>
                 `;
-                showModal(`🩺 ${serviceName}`, `<p>Would you like to book an appointment for <strong>${serviceName}</strong>?</p>`, buttons);
+                showModal(`<i class="ph ph-stethoscope"></i> ${serviceName}`, `<p>Would you like to book an appointment for <strong>${serviceName}</strong>?</p>`, buttons);
             });
         });
         
