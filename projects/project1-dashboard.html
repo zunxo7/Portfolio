@@ -690,7 +690,6 @@
             margin-bottom: 1.25rem;
             position: relative;
             overflow: hidden;
-            max-width: 340px;
         }
 
         .billing-card-top {
@@ -846,6 +845,18 @@
         .mobile-nav-btn i { font-size: 1.3rem; }
         .mobile-nav-btn.active { color: #dc2626; }
 
+        /* ── Billing grid ── */
+        .billing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .billing-card-preview {
+            max-width: 100%;
+        }
+
         @media (max-width: 900px) {
             .dash-sidebar { display: none; }
             .dash-layout { grid-template-columns: 1fr; }
@@ -854,6 +865,7 @@
             .calendar-wrap { grid-template-columns: 1fr; }
             .plans-row { grid-template-columns: 1fr; }
             .sub-details { grid-template-columns: repeat(2, 1fr); }
+            .billing-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
@@ -862,6 +874,20 @@
             .topbar-back span { display: none; }
             .dash-main { padding: 1.25rem 1rem; }
             .stats-row { grid-template-columns: 1fr 1fr; }
+
+            /* Billing table: hide Status col, shrink padding */
+            .billing-table th:nth-child(4),
+            .billing-table td:nth-child(4) { display: none; }
+            .billing-table th,
+            .billing-table td { padding: 0.75rem 0.5rem; font-size: 0.78rem; }
+            .billing-table th { font-size: 0.65rem; }
+
+            /* Card preview full width */
+            .billing-card-preview {
+                max-width: 100%;
+                padding: 1.25rem;
+            }
+            .billing-card-number { font-size: 0.88rem; letter-spacing: 0.15em; }
         }
     </style>
 </head>
@@ -1059,7 +1085,7 @@
                     <div class="page-subtitle">Payment history and card on file</div>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;" id="billingGrid">
+                <div class="billing-grid" id="billingGrid">
                     <div>
                         <div class="card-title" style="margin-bottom:1rem;"><i class="ph ph-credit-card" style="color:#dc2626;"></i> Payment Method</div>
                         <div class="billing-card-preview" id="billingCardPreview"></div>
