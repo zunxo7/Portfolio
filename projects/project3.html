@@ -1083,10 +1083,9 @@
         
         function checkoutCart() {
             closeModal();
+            sessionStorage.setItem('fashionhub_cart', JSON.stringify(cart));
             setTimeout(() => {
-                showModal('<i class="ph ph-check-circle"></i> Redirecting...', '<p style="text-align: center;">Redirecting to checkout page...</p><p style="text-align: center; color: #9ca3af; margin-top: 0.5rem; font-size: 0.9rem;">(In a real website, this would redirect to the checkout page)</p>');
-                cart = [];
-                updateCartBadge();
+                window.location.href = 'project3-checkout.html';
             }, 300);
         }
         
