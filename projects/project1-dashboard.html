@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account — FitZone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
+            min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 4px; }
+
+        /* ── Top Bar ── */
+        .topbar {
+            background: #111;
+            border-bottom: 1px solid #222;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topbar-logo span { color: #dc2626; }
+
+        .topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 2px solid #dc2626;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .topbar-back {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: #888;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .topbar-back:hover { color: #dc2626; }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: none;
+            border: 1px solid #333;
+            color: #888;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover { border-color: #dc2626; color: #dc2626; }
+
+        /* ── Layout ── */
+        .dash-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: calc(100vh - 65px);
+        }
+
+        /* ── Sidebar ── */
+        .dash-sidebar {
+            background: #111;
+            border-right: 1px solid #222;
+            padding: 1.5rem 1rem;
+            position: sticky;
+            top: 65px;
+            height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            color: #888;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .sidebar-link:hover { background: #1a1a1a; color: #fafafa; }
+
+        .sidebar-link.active {
+            background: rgba(220, 38, 38, 0.15);
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .sidebar-link i { font-size: 1.1rem; }
+
+        .sidebar-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #444;
+            padding: 1rem 1rem 0.4rem;
+        }
+
+        /* ── Main Content ── */
+        .dash-main {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── Page Titles ── */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle { color: #666; font-size: 0.9rem; }
+
+        /* ── Stats Cards ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #171717;
+            border: 1px solid #222;
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: #dc2626; }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(220,38,38,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #dc2626;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label { font-size: 0.78rem; color: #666; font-weight: 500; }
+
+        /* ── Cards ── */
+        .card {
+            background: #171717;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title i { color: #dc2626; }
+
+        /* ── Booking Items ── */
+        .booking-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .booking-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .booking-item:first-child { padding-top: 0; }
+
+        .booking-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(220,38,38,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #dc2626;
+            flex-shrink: 0;
+        }
+
+        .booking-info { flex: 1; }
+        .booking-name { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.2rem; }
+        .booking-meta { font-size: 0.78rem; color: #666; }
+
+        .booking-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .badge-upcoming { background: rgba(220,38,38,0.15); color: #dc2626; }
+        .badge-past { background: #222; color: #888; }
+        .badge-cancelled { background: rgba(239,68,68,0.1); color: #888; text-decoration: line-through; }
+
+        .booking-cancel-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #666;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 0.5rem;
+        }
+
+        .booking-cancel-btn:hover { border-color: #dc2626; color: #dc2626; }
+
+        /* ── Calendar ── */
+        .calendar-wrap {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .calendar-card {
+            background: #171717;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .cal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .cal-month-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .cal-nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: none;
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .cal-nav-btn:hover { border-color: #dc2626; color: #dc2626; }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .cal-day-label {
+            text-align: center;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            padding: 0.4rem 0;
+        }
+
+        .cal-day {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #888;
+            cursor: default;
+            transition: all 0.15s;
+            position: relative;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cal-day.has-class {
+            background: rgba(220,38,38,0.1);
+            color: #fafafa;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .cal-day.has-class:hover {
+            background: rgba(220,38,38,0.2);
+            border-color: #dc2626;
+        }
+
+        .cal-day.today {
+            background: #dc2626;
+            color: white;
+            font-weight: 700;
+        }
+
+        .cal-day.selected {
+            background: #dc2626;
+            color: white;
+            font-weight: 700;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 2px rgba(220,38,38,0.4);
+        }
+
+        .cal-day.other-month { opacity: 0.25; cursor: default; }
+
+        .cal-day.booked::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #dc2626;
+            position: absolute;
+            bottom: 4px;
+        }
+
+        .cal-day.today.booked::after,
+        .cal-day.selected.booked::after { background: white; }
+
+        /* ── Day Classes Panel ── */
+        .day-classes-card {
+            background: #171717;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .day-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: #dc2626;
+        }
+
+        .class-slot {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: border-color 0.2s;
+        }
+
+        .class-slot:hover { border-color: #444; }
+
+        .class-slot-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .class-slot-meta {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 0.75rem;
+        }
+
+        .class-slot-meta span { margin-right: 0.75rem; }
+
+        .class-slot-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .spots-left {
+            font-size: 0.72rem;
+            color: #888;
+        }
+
+        .book-slot-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .book-slot-btn:hover { background: #b91c1c; }
+        .book-slot-btn:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .book-slot-btn.booked-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #666;
+        }
+
+        .empty-day {
+            text-align: center;
+            color: #555;
+            padding: 2rem 0;
+            font-size: 0.85rem;
+        }
+
+        /* ── Subscription ── */
+        .sub-card {
+            background: linear-gradient(135deg, #1a0000, #171717);
+            border: 1px solid #dc2626;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sub-card::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 150px;
+            height: 150px;
+            background: rgba(220,38,38,0.08);
+            border-radius: 50%;
+        }
+
+        .sub-plan-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #dc2626;
+            margin-bottom: 0.3rem;
+        }
+
+        .sub-plan-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-price {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+
+        .sub-price strong { color: #dc2626; font-size: 1.4rem; font-weight: 800; }
+
+        .sub-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sub-detail-item label {
+            display: block;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .sub-detail-item span {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .sub-status-active {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(34,197,94,0.1);
+            color: #22c55e;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+        }
+
+        .sub-status-active::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .sub-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+        .sub-btn {
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .sub-btn-primary { background: #dc2626; color: white; }
+        .sub-btn-primary:hover { background: #b91c1c; }
+        .sub-btn-outline { background: none; border: 1px solid #333; color: #888; }
+        .sub-btn-outline:hover { border-color: #dc2626; color: #dc2626; }
+        .sub-btn-danger { background: none; border: 1px solid #333; color: #888; font-size: 0.8rem; }
+        .sub-btn-danger:hover { border-color: #ef4444; color: #ef4444; }
+
+        /* ── Plan Upgrade Cards ── */
+        .plans-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .plan-card {
+            background: #171717;
+            border: 1px solid #222;
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .plan-card:hover { border-color: #dc2626; transform: translateY(-3px); }
+
+        .plan-card.current-plan { border-color: #dc2626; background: rgba(220,38,38,0.08); }
+
+        .plan-card-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-card-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #dc2626;
+            margin-bottom: 0.25rem;
+        }
+
+        .plan-card-price small { font-size: 0.75rem; color: #666; font-weight: 400; }
+
+        .plan-card-features {
+            list-style: none;
+            font-size: 0.78rem;
+            color: #888;
+            margin: 1rem 0;
+            text-align: left;
+        }
+
+        .plan-card-features li {
+            padding: 0.35rem 0;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .plan-card-features li i { color: #dc2626; font-size: 0.8rem; }
+
+        .plan-select-btn {
+            width: 100%;
+            padding: 0.65rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .plan-select-btn.current { background: #333; color: #666; cursor: default; }
+        .plan-select-btn.upgrade { background: #dc2626; color: white; }
+        .plan-select-btn.upgrade:hover { background: #b91c1c; }
+        .plan-select-btn.downgrade { background: #222; color: #888; border: 1px solid #333; }
+        .plan-select-btn.downgrade:hover { border-color: #555; color: #aaa; }
+
+        /* ── Billing Table ── */
+        .billing-card-preview {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 60%, #2a0000 120%);
+            border-radius: 14px;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            max-width: 340px;
+        }
+
+        .billing-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .billing-chip {
+            width: 38px;
+            height: 28px;
+            background: linear-gradient(135deg, #f0c040, #d4a017);
+            border-radius: 5px;
+        }
+
+        .billing-card-brand {
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.05em;
+        }
+
+        .billing-card-number {
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 1rem;
+        }
+
+        .billing-card-bottom {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .billing-card-bottom .lbl { font-size: 0.6rem; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+        .billing-card-bottom .val { font-size: 0.85rem; font-weight: 600; }
+
+        .billing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .billing-table th {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #555;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #222;
+        }
+
+        .billing-table td {
+            padding: 1rem 0.75rem;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #1a1a1a;
+            color: #ccc;
+        }
+
+        .billing-table tr:last-child td { border-bottom: none; }
+
+        .billing-table .amount { font-weight: 700; color: white; }
+
+        .billing-badge-paid {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(34,197,94,0.1);
+            color: #22c55e;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #171717;
+            border: 1px solid #333;
+            color: white;
+            padding: 0.85rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            pointer-events: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i { color: #dc2626; }
+
+        /* ── No-plan State ── */
+        .no-sub {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .no-sub i { font-size: 3rem; color: #333; margin-bottom: 1rem; display: block; }
+        .no-sub h3 { font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
+        .no-sub p { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        /* ── Mobile ── */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111;
+            border-top: 1px solid #222;
+            padding: 0.5rem;
+            z-index: 40;
+        }
+
+        .mobile-nav-bar nav {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .mobile-nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            color: #666;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .mobile-nav-btn i { font-size: 1.3rem; }
+        .mobile-nav-btn.active { color: #dc2626; }
+
+        @media (max-width: 900px) {
+            .dash-sidebar { display: none; }
+            .dash-layout { grid-template-columns: 1fr; }
+            .mobile-nav-bar { display: block; }
+            .dash-main { padding-bottom: 5rem; }
+            .calendar-wrap { grid-template-columns: 1fr; }
+            .plans-row { grid-template-columns: 1fr; }
+            .sub-details { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .topbar { padding: 1rem; }
+            .user-name { display: none; }
+            .topbar-back span { display: none; }
+            .dash-main { padding: 1.25rem 1rem; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <header class="topbar">
+        <a href="project1.html" class="topbar-logo">Fit<span>Zone</span></a>
+        <div class="topbar-user">
+            <a href="project1.html" class="topbar-back">
+                <i class="ph ph-arrow-left"></i> <span>Back to site</span>
+            </a>
+            <div class="user-avatar" id="topbarAvatar">?</div>
+            <span class="user-name" id="topbarName">Loading…</span>
+            <button class="logout-btn" onclick="logout()">
+                <i class="ph ph-sign-out"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <div class="dash-layout">
+
+        <!-- Sidebar -->
+        <aside class="dash-sidebar">
+            <div class="sidebar-section-label">Dashboard</div>
+            <div class="sidebar-nav">
+                <button class="sidebar-link active" onclick="showTab('overview', this)">
+                    <i class="ph ph-squares-four"></i> Overview
+                </button>
+                <button class="sidebar-link" onclick="showTab('bookings', this)">
+                    <i class="ph ph-calendar-check"></i> My Bookings
+                </button>
+                <button class="sidebar-link" onclick="showTab('schedule', this)">
+                    <i class="ph ph-calendar-dots"></i> Book a Class
+                </button>
+            </div>
+            <div class="sidebar-section-label">Membership</div>
+            <div class="sidebar-nav">
+                <button class="sidebar-link" onclick="showTab('subscription', this)">
+                    <i class="ph ph-crown"></i> Subscription
+                </button>
+                <button class="sidebar-link" onclick="showTab('billing', this)">
+                    <i class="ph ph-receipt"></i> Billing
+                </button>
+            </div>
+            <div class="sidebar-section-label">Account</div>
+            <div class="sidebar-nav">
+                <button class="sidebar-link" onclick="showTab('profile', this)">
+                    <i class="ph ph-user-circle"></i> Profile
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="dash-main">
+
+            <!-- ── OVERVIEW ── -->
+            <div class="tab-panel active" id="tab-overview">
+                <div class="page-header">
+                    <div class="page-title" id="welcomeTitle">Welcome back!</div>
+                    <div class="page-subtitle">Here's your fitness summary</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="ph ph-calendar-check"></i></div>
+                        <div class="stat-value" id="statUpcoming">0</div>
+                        <div class="stat-label">Upcoming Classes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="ph ph-trophy"></i></div>
+                        <div class="stat-value" id="statTotal">0</div>
+                        <div class="stat-label">Classes Attended</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="ph ph-flame"></i></div>
+                        <div class="stat-value" id="statStreak">0</div>
+                        <div class="stat-label">Week Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="ph ph-crown"></i></div>
+                        <div class="stat-value" id="statPlan">—</div>
+                        <div class="stat-label">Current Plan</div>
+                    </div>
+                </div>
+
+                <!-- Next class -->
+                <div class="card">
+                    <div class="card-title"><i class="ph ph-lightning"></i> Next Class</div>
+                    <div id="nextClassContent">
+                        <div style="color:#666;font-size:0.88rem;">No upcoming classes. <button onclick="showTab('schedule')" style="color:#dc2626;background:none;border:none;cursor:pointer;font-weight:600;">Book one now →</button></div>
+                    </div>
+                </div>
+
+                <!-- Recent bookings preview -->
+                <div class="card">
+                    <div class="card-title"><i class="ph ph-list-bullets"></i> Recent Bookings</div>
+                    <div id="overviewBookings">
+                        <div style="color:#666;font-size:0.88rem;">No bookings yet.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── MY BOOKINGS ── -->
+            <div class="tab-panel" id="tab-bookings">
+                <div class="page-header">
+                    <div class="page-title">My Bookings</div>
+                    <div class="page-subtitle">Manage your class reservations</div>
+                </div>
+
+                <div class="card" style="margin-bottom:1rem;">
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;" id="bookingFilters">
+                        <button class="booking-filter-btn active" onclick="filterBookings('all', this)">All</button>
+                        <button class="booking-filter-btn" onclick="filterBookings('upcoming', this)">Upcoming</button>
+                        <button class="booking-filter-btn" onclick="filterBookings('past', this)">Past</button>
+                        <button class="booking-filter-btn" onclick="filterBookings('cancelled', this)">Cancelled</button>
+                    </div>
+                </div>
+
+                <style>
+                    .booking-filter-btn {
+                        padding: 0.4rem 1rem;
+                        border-radius: 8px;
+                        border: 1px solid #333;
+                        background: none;
+                        color: #888;
+                        font-size: 0.8rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+                    .booking-filter-btn.active,
+                    .booking-filter-btn:hover {
+                        border-color: #dc2626;
+                        color: #dc2626;
+                        background: rgba(220,38,38,0.08);
+                    }
+                </style>
+
+                <div class="card" id="bookingsList">
+                    <div style="color:#666;font-size:0.88rem;text-align:center;padding:2rem 0;">
+                        No bookings yet. <button onclick="showTab('schedule')" style="color:#dc2626;background:none;border:none;cursor:pointer;font-weight:600;">Book a class →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SCHEDULE / BOOK A CLASS ── -->
+            <div class="tab-panel" id="tab-schedule">
+                <div class="page-header">
+                    <div class="page-title">Book a Class</div>
+                    <div class="page-subtitle">Pick a day and choose your session</div>
+                </div>
+
+                <div class="calendar-wrap">
+                    <div class="calendar-card">
+                        <div class="cal-header">
+                            <button class="cal-nav-btn" onclick="calPrev()"><i class="ph ph-caret-left"></i></button>
+                            <div class="cal-month-title" id="calMonthTitle"></div>
+                            <button class="cal-nav-btn" onclick="calNext()"><i class="ph ph-caret-right"></i></button>
+                        </div>
+                        <div class="cal-grid" id="calGrid"></div>
+                    </div>
+
+                    <div class="day-classes-card" id="dayClassesPanel">
+                        <div class="day-title" id="dayTitle">Select a date</div>
+                        <div id="dayClassesList">
+                            <div class="empty-day">
+                                <i class="ph ph-calendar-blank" style="font-size:2rem;color:#333;display:block;margin-bottom:0.75rem;"></i>
+                                Click a highlighted date to see available classes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SUBSCRIPTION ── -->
+            <div class="tab-panel" id="tab-subscription">
+                <div class="page-header">
+                    <div class="page-title">Subscription</div>
+                    <div class="page-subtitle">Manage your membership plan</div>
+                </div>
+
+                <div id="subContent"></div>
+
+                <div class="card">
+                    <div class="card-title"><i class="ph ph-arrows-clockwise"></i> Change Plan</div>
+                    <div class="plans-row" id="plansRow"></div>
+                </div>
+            </div>
+
+            <!-- ── BILLING ── -->
+            <div class="tab-panel" id="tab-billing">
+                <div class="page-header">
+                    <div class="page-title">Billing</div>
+                    <div class="page-subtitle">Payment history and card on file</div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;" id="billingGrid">
+                    <div>
+                        <div class="card-title" style="margin-bottom:1rem;"><i class="ph ph-credit-card" style="color:#dc2626;"></i> Payment Method</div>
+                        <div class="billing-card-preview" id="billingCardPreview"></div>
+                        <button class="sub-btn sub-btn-outline" style="font-size:0.8rem;" onclick="updateCard()">
+                            <i class="ph ph-pencil"></i> Update Card
+                        </button>
+                    </div>
+                    <div>
+                        <div class="card-title" style="margin-bottom:1rem;"><i class="ph ph-receipt" style="color:#dc2626;"></i> Payment History</div>
+                        <div class="card" style="padding:0;overflow:hidden;">
+                            <table class="billing-table" id="billingTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="billingTbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── PROFILE ── -->
+            <div class="tab-panel" id="tab-profile">
+                <div class="page-header">
+                    <div class="page-title">Profile</div>
+                    <div class="page-subtitle">Your account details</div>
+                </div>
+
+                <div class="card" style="max-width:500px;">
+                    <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:2rem;">
+                        <div id="profileAvatar" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;border:3px solid #dc2626;flex-shrink:0;"></div>
+                        <div>
+                            <div id="profileName" style="font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:800;"></div>
+                            <div id="profileEmail" style="color:#666;font-size:0.85rem;margin-top:0.2rem;"></div>
+                            <div style="margin-top:0.5rem;" id="profilePlanBadge"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;flex-direction:column;gap:1rem;">
+                        <div>
+                            <label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#555;display:block;margin-bottom:0.4rem;">Full Name</label>
+                            <input id="profileNameInput" type="text" style="width:100%;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:0.75rem 1rem;color:white;font-size:0.9rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#333'">
+                        </div>
+                        <div>
+                            <label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#555;display:block;margin-bottom:0.4rem;">Email</label>
+                            <input id="profileEmailInput" type="email" style="width:100%;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:0.75rem 1rem;color:white;font-size:0.9rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#333'">
+                        </div>
+                        <button onclick="saveProfile()" style="background:#dc2626;color:white;border:none;padding:0.75rem;border-radius:10px;font-size:0.88rem;font-weight:700;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                            <i class="ph ph-floppy-disk"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width:500px;margin-top:1.25rem;">
+                    <div class="card-title"><i class="ph ph-lock"></i> Change Password</div>
+                    <div style="display:flex;flex-direction:column;gap:1rem;">
+                        <input type="password" placeholder="Current password" id="pwCurrent" style="width:100%;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:0.75rem 1rem;color:white;font-size:0.9rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#333'">
+                        <input type="password" placeholder="New password" id="pwNew" style="width:100%;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:0.75rem 1rem;color:white;font-size:0.9rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#333'">
+                        <input type="password" placeholder="Confirm new password" id="pwConfirm" style="width:100%;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:0.75rem 1rem;color:white;font-size:0.9rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#333'">
+                        <button onclick="changePassword()" style="background:#333;color:white;border:none;padding:0.75rem;border-radius:10px;font-size:0.88rem;font-weight:700;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#333'">
+                            Update Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Nav -->
+    <div class="mobile-nav-bar">
+        <nav>
+            <button class="mobile-nav-btn active" onclick="showTab('overview', this, true)" id="mob-overview">
+                <i class="ph ph-squares-four"></i> Home
+            </button>
+            <button class="mobile-nav-btn" onclick="showTab('schedule', this, true)" id="mob-schedule">
+                <i class="ph ph-calendar-dots"></i> Book
+            </button>
+            <button class="mobile-nav-btn" onclick="showTab('bookings', this, true)" id="mob-bookings">
+                <i class="ph ph-calendar-check"></i> Bookings
+            </button>
+            <button class="mobile-nav-btn" onclick="showTab('subscription', this, true)" id="mob-subscription">
+                <i class="ph ph-crown"></i> Plan
+            </button>
+            <button class="mobile-nav-btn" onclick="showTab('billing', this, true)" id="mob-billing">
+                <i class="ph ph-receipt"></i> Billing
+            </button>
+        </nav>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"><i class="ph ph-check-circle"></i> <span id="toastMsg"></span></div>
+
+    <script>
+    // ── Auth guard ────────────────────────────────────────────────────────
+    const user = JSON.parse(localStorage.getItem('fitzone_user') || 'null');
+    if (!user) {
+        window.location.href = 'project1.html';
+    }
+
+    // ── Data helpers ──────────────────────────────────────────────────────
+    function getBookings()     { return JSON.parse(localStorage.getItem('fitzone_bookings') || '[]'); }
+    function saveBookings(b)   { localStorage.setItem('fitzone_bookings', JSON.stringify(b)); }
+    function getSub()          { return JSON.parse(localStorage.getItem('fitzone_sub') || 'null'); }
+    function saveSub(s)        { localStorage.setItem('fitzone_sub', JSON.stringify(s)); }
+    function getBilling()      { return JSON.parse(localStorage.getItem('fitzone_billing') || '[]'); }
+    function saveBilling(b)    { localStorage.setItem('fitzone_billing', JSON.stringify(b)); }
+
+    function initials(name) {
+        return name.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 2);
+    }
+
+    function formatDate(d) {
+        return new Date(d).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    // ── Init user UI ──────────────────────────────────────────────────────
+    const ini = initials(user.name);
+    document.getElementById('topbarAvatar').textContent = ini;
+    document.getElementById('topbarName').textContent = user.name.split(' ')[0];
+
+    // ── Tabs ──────────────────────────────────────────────────────────────
+    let activeTab = 'overview';
+    let activeSidebarBtn = null;
+
+    function showTab(name, btn, isMobile = false) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('tab-' + name).classList.add('active');
+
+        if (!isMobile) {
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        } else {
+            document.querySelectorAll('.mobile-nav-btn').forEach(l => l.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+
+        activeTab = name;
+        refreshTab(name);
+    }
+
+    function refreshTab(name) {
+        if (name === 'overview')      renderOverview();
+        if (name === 'bookings')      renderBookings('all');
+        if (name === 'schedule')      renderCalendar();
+        if (name === 'subscription')  renderSubscription();
+        if (name === 'billing')       renderBilling();
+        if (name === 'profile')       renderProfile();
+    }
+
+    // ── Toast ─────────────────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg, icon = 'ph-check-circle') {
+        const t = document.getElementById('toast');
+        t.querySelector('i').className = 'ph ' + icon;
+        document.getElementById('toastMsg').textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ── Overview ──────────────────────────────────────────────────────────
+    function renderOverview() {
+        document.getElementById('welcomeTitle').textContent = `Welcome back, ${user.name.split(' ')[0]}!`;
+        const bookings = getBookings();
+        const sub = getSub();
+        const now = new Date();
+
+        const upcoming = bookings.filter(b => b.status === 'upcoming' && new Date(b.date) >= now);
+        const past = bookings.filter(b => b.status === 'past');
+
+        document.getElementById('statUpcoming').textContent = upcoming.length;
+        document.getElementById('statTotal').textContent = past.length;
+        document.getElementById('statStreak').textContent = Math.min(upcoming.length + past.length, 7);
+        document.getElementById('statPlan').textContent = sub ? sub.plan.substring(0,3) : '—';
+
+        // Next class
+        const nextClass = upcoming.sort((a,b) => new Date(a.date) - new Date(b.date))[0];
+        const nextEl = document.getElementById('nextClassContent');
+        if (nextClass) {
+            nextEl.innerHTML = `
+                <div class="booking-item" style="padding:0;">
+                    <div class="booking-dot"><i class="ph ph-barbell"></i></div>
+                    <div class="booking-info">
+                        <div class="booking-name">${nextClass.className}</div>
+                        <div class="booking-meta">${formatDate(nextClass.date)} • ${nextClass.time} • ${nextClass.trainer}</div>
+                    </div>
+                    <span class="booking-badge badge-upcoming">Upcoming</span>
+                </div>
+            `;
+        } else {
+            nextEl.innerHTML = `<div style="color:#666;font-size:0.88rem;">No upcoming classes. <button onclick="showTab('schedule')" style="color:#dc2626;background:none;border:none;cursor:pointer;font-weight:600;">Book one now →</button></div>`;
+        }
+
+        // Recent bookings
+        const recent = [...bookings].reverse().slice(0, 3);
+        const recentEl = document.getElementById('overviewBookings');
+        if (recent.length === 0) {
+            recentEl.innerHTML = `<div style="color:#666;font-size:0.88rem;">No bookings yet.</div>`;
+        } else {
+            recentEl.innerHTML = recent.map(b => bookingItemHTML(b)).join('');
+        }
+    }
+
+    // ── Bookings ──────────────────────────────────────────────────────────
+    let currentFilter = 'all';
+
+    function filterBookings(filter, btn) {
+        currentFilter = filter;
+        document.querySelectorAll('.booking-filter-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        renderBookings(filter);
+    }
+
+    function renderBookings(filter) {
+        let bookings = getBookings();
+        if (filter === 'upcoming') bookings = bookings.filter(b => b.status === 'upcoming');
+        else if (filter === 'past') bookings = bookings.filter(b => b.status === 'past');
+        else if (filter === 'cancelled') bookings = bookings.filter(b => b.status === 'cancelled');
+
+        const el = document.getElementById('bookingsList');
+        if (bookings.length === 0) {
+            el.innerHTML = `<div style="color:#666;font-size:0.88rem;text-align:center;padding:2rem 0;">No ${filter === 'all' ? '' : filter} bookings. <button onclick="showTab('schedule')" style="color:#dc2626;background:none;border:none;cursor:pointer;font-weight:600;">Book a class →</button></div>`;
+            return;
+        }
+        el.innerHTML = [...bookings].reverse().map(b => bookingItemHTML(b, true)).join('');
+    }
+
+    function bookingItemHTML(b, showCancel = false) {
+        const icons = { 'HIIT Training': 'ph-lightning', 'Yoga Flow': 'ph-person-simple', 'Spinning': 'ph-bicycle', 'Strength Training': 'ph-barbell', 'Personal Training': 'ph-whistle' };
+        const icon = icons[b.className] || 'ph-barbell';
+        const badgeClass = b.status === 'upcoming' ? 'badge-upcoming' : b.status === 'past' ? 'badge-past' : 'badge-cancelled';
+        const cancelBtn = showCancel && b.status === 'upcoming'
+            ? `<button class="booking-cancel-btn" onclick="cancelBooking('${b.id}')">Cancel</button>`
+            : '';
+        return `
+            <div class="booking-item" id="booking-${b.id}">
+                <div class="booking-dot"><i class="ph ${icon}"></i></div>
+                <div class="booking-info">
+                    <div class="booking-name">${b.className}</div>
+                    <div class="booking-meta">${formatDate(b.date)} • ${b.time} • ${b.trainer}</div>
+                </div>
+                <span class="booking-badge ${badgeClass}">${b.status.charAt(0).toUpperCase() + b.status.slice(1)}</span>
+                ${cancelBtn}
+            </div>
+        `;
+    }
+
+    function cancelBooking(id) {
+        let bookings = getBookings();
+        const b = bookings.find(x => x.id === id);
+        if (!b) return;
+        b.status = 'cancelled';
+        saveBookings(bookings);
+        renderBookings(currentFilter);
+        renderOverview();
+        showToast('Booking cancelled', 'ph-x-circle');
+    }
+
+    // ── Calendar ──────────────────────────────────────────────────────────
+    const CLASS_SCHEDULE = {
+        1: [ // Monday
+            { name: 'HIIT Training',    time: '6:00 PM', trainer: 'Coach Mike',       spots: 12 },
+            { name: 'Strength Training',time: '7:00 PM', trainer: 'Coach Alex',       spots: 8  },
+        ],
+        2: [ // Tuesday
+            { name: 'Yoga Flow',        time: '7:00 AM', trainer: 'Instructor Sarah', spots: 15 },
+            { name: 'Spinning',         time: '5:30 PM', trainer: 'Coach Jordan',     spots: 10 },
+        ],
+        3: [ // Wednesday
+            { name: 'HIIT Training',    time: '6:00 PM', trainer: 'Coach Mike',       spots: 12 },
+            { name: 'Strength Training',time: '7:00 PM', trainer: 'Coach Alex',       spots: 8  },
+        ],
+        4: [ // Thursday
+            { name: 'Yoga Flow',        time: '7:00 AM', trainer: 'Instructor Sarah', spots: 15 },
+            { name: 'Personal Training',time: '4:00 PM', trainer: 'Coach Rivera',     spots: 4  },
+        ],
+        5: [ // Friday
+            { name: 'HIIT Training',    time: '6:00 PM', trainer: 'Coach Mike',       spots: 12 },
+            { name: 'Spinning',         time: '5:30 PM', trainer: 'Coach Jordan',     spots: 10 },
+            { name: 'Strength Training',time: '7:00 PM', trainer: 'Coach Alex',       spots: 8  },
+        ],
+        6: [ // Saturday
+            { name: 'Yoga Flow',        time: '9:00 AM', trainer: 'Instructor Sarah', spots: 20 },
+            { name: 'Spinning',         time: '10:00 AM',trainer: 'Coach Jordan',     spots: 15 },
+        ],
+        0: [ // Sunday
+            { name: 'Yoga Flow',        time: '9:00 AM', trainer: 'Instructor Sarah', spots: 20 },
+        ],
+    };
+
+    let calYear, calMonth, selectedDate = null;
+
+    function renderCalendar() {
+        const now = new Date();
+        if (!calYear) { calYear = now.getFullYear(); calMonth = now.getMonth(); }
+        renderCalGrid();
+        if (!selectedDate) {
+            document.getElementById('dayTitle').textContent = 'Select a date';
+            document.getElementById('dayClassesList').innerHTML = `<div class="empty-day"><i class="ph ph-calendar-blank" style="font-size:2rem;color:#333;display:block;margin-bottom:0.75rem;"></i>Click a highlighted date to see available classes</div>`;
+        } else {
+            renderDayClasses(selectedDate);
+        }
+    }
+
+    function renderCalGrid() {
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        document.getElementById('calMonthTitle').textContent = `${months[calMonth]} ${calYear}`;
+
+        const grid = document.getElementById('calGrid');
+        const bookings = getBookings();
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        // Day labels
+        const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+        let html = days.map(d => `<div class="cal-day-label">${d}</div>`).join('');
+
+        const firstDay = new Date(calYear, calMonth, 1).getDay();
+        const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+        const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+        // Prev month filler
+        for (let i = firstDay - 1; i >= 0; i--) {
+            html += `<div class="cal-day other-month">${daysInPrev - i}</div>`;
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const thisDate = new Date(calYear, calMonth, d);
+            const dow = thisDate.getDay();
+            const hasClass = !!CLASS_SCHEDULE[dow];
+            const isToday = thisDate.getTime() === today.getTime();
+            const isPast = thisDate < today;
+            const isSel = selectedDate && selectedDate.getTime() === thisDate.getTime();
+            const isBooked = bookings.some(b => {
+                const bd = new Date(b.date);
+                return bd.getFullYear() === calYear && bd.getMonth() === calMonth && bd.getDate() === d && b.status !== 'cancelled';
+            });
+
+            let cls = 'cal-day';
+            if (hasClass && !isPast) cls += ' has-class';
+            if (isToday) cls += ' today';
+            if (isSel) cls += ' selected';
+            if (isPast) cls += ' other-month';
+            if (isBooked) cls += ' booked';
+
+            const click = hasClass && !isPast ? `onclick="selectCalDay(${calYear},${calMonth},${d})"` : '';
+            html += `<div class="${cls}" ${click}>${d}</div>`;
+        }
+
+        // Fill rest
+        const total = firstDay + daysInMonth;
+        const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
+        for (let i = 1; i <= remaining; i++) {
+            html += `<div class="cal-day other-month">${i}</div>`;
+        }
+
+        grid.innerHTML = html;
+    }
+
+    function calPrev() {
+        calMonth--;
+        if (calMonth < 0) { calMonth = 11; calYear--; }
+        renderCalGrid();
+    }
+
+    function calNext() {
+        calMonth++;
+        if (calMonth > 11) { calMonth = 0; calYear++; }
+        renderCalGrid();
+    }
+
+    function selectCalDay(y, m, d) {
+        selectedDate = new Date(y, m, d);
+        renderCalGrid();
+        renderDayClasses(selectedDate);
+    }
+
+    function renderDayClasses(date) {
+        const dow = date.getDay();
+        const classes = CLASS_SCHEDULE[dow] || [];
+        const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        document.getElementById('dayTitle').textContent =
+            `${dayNames[dow]}, ${months[date.getMonth()]} ${date.getDate()}`;
+
+        const bookings = getBookings();
+        const dateStr = date.toISOString().split('T')[0];
+
+        if (classes.length === 0) {
+            document.getElementById('dayClassesList').innerHTML = `<div class="empty-day">No classes scheduled on this day.</div>`;
+            return;
+        }
+
+        document.getElementById('dayClassesList').innerHTML = classes.map((cls, idx) => {
+            const isBooked = bookings.some(b => b.date === dateStr && b.className === cls.name && b.status !== 'cancelled');
+            const btnHTML = isBooked
+                ? `<button class="book-slot-btn booked-btn" disabled><i class="ph ph-check"></i> Booked</button>`
+                : `<button class="book-slot-btn" onclick="bookClassSlot('${dateStr}','${cls.name}','${cls.time}','${cls.trainer}',${idx})">Book</button>`;
+            return `
+                <div class="class-slot" id="slot-${idx}">
+                    <div class="class-slot-name">${cls.name}</div>
+                    <div class="class-slot-meta">
+                        <span><i class="ph ph-clock"></i> ${cls.time}</span>
+                        <span><i class="ph ph-user"></i> ${cls.trainer}</span>
+                    </div>
+                    <div class="class-slot-footer">
+                        <span class="spots-left"><i class="ph ph-users"></i> ${cls.spots} spots left</span>
+                        ${btnHTML}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function bookClassSlot(dateStr, className, time, trainer, idx) {
+        const sub = getSub();
+        if (!sub || sub.status !== 'active') {
+            showToast('You need an active subscription to book classes', 'ph-warning');
+            setTimeout(() => showTab('subscription'), 1500);
+            return;
+        }
+
+        const bookings = getBookings();
+        const id = 'bk-' + Date.now() + '-' + Math.random().toString(36).substr(2,5);
+        const date = new Date(dateStr + 'T00:00:00');
+        const now = new Date();
+        const status = date < now ? 'past' : 'upcoming';
+
+        bookings.push({ id, className, date: dateStr, time, trainer, status, bookedAt: new Date().toISOString() });
+        saveBookings(bookings);
+
+        // Re-render slot
+        if (selectedDate) renderDayClasses(selectedDate);
+        renderCalGrid();
+        renderOverview();
+        showToast(`${className} booked for ${formatDate(dateStr)}!`);
+    }
+
+    // ── Subscription ──────────────────────────────────────────────────────
+    const PLANS = {
+        Basic:   { price: 49,  features: ['Gym equipment access', '2 group classes/week', 'Locker access'] },
+        Premium: { price: 99,  features: ['Unlimited gym access', 'Unlimited group classes', '1 personal training session', 'Nutrition consultation'] },
+        Elite:   { price: 149, features: ['Everything in Premium', '4 personal training sessions', 'Recovery zone access', 'Priority booking'] },
+    };
+
+    function renderSubscription() {
+        const sub = getSub();
+        const el = document.getElementById('subContent');
+
+        if (!sub) {
+            el.innerHTML = `
+                <div class="card">
+                    <div class="no-sub">
+                        <i class="ph ph-crown"></i>
+                        <h3>No active subscription</h3>
+                        <p>Choose a plan below to get started with FitZone.</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            el.innerHTML = `
+                <div class="sub-card">
+                    <div class="sub-plan-label">Active Plan</div>
+                    <div class="sub-plan-name">${sub.plan}</div>
+                    <div class="sub-price">Billed monthly at <strong>$${PLANS[sub.plan].price}</strong>/month</div>
+                    <div class="sub-details">
+                        <div class="sub-detail-item">
+                            <label>Member Since</label>
+                            <span>${formatDate(sub.startDate)}</span>
+                        </div>
+                        <div class="sub-detail-item">
+                            <label>Next Billing</label>
+                            <span>${formatDate(sub.nextBilling)}</span>
+                        </div>
+                        <div class="sub-detail-item">
+                            <label>Status</label>
+                            <span class="sub-status-active">Active</span>
+                        </div>
+                    </div>
+                    <div class="sub-actions">
+                        <button class="sub-btn sub-btn-danger" onclick="cancelSubscription()">
+                            <i class="ph ph-x"></i> Cancel Subscription
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Plans grid
+        const plansEl = document.getElementById('plansRow');
+        plansEl.innerHTML = Object.entries(PLANS).map(([name, data]) => {
+            const isCurrent = sub && sub.plan === name;
+            const btnCls = isCurrent ? 'current' : (sub && PLANS[name].price > PLANS[sub.plan].price ? 'upgrade' : sub ? 'downgrade' : 'upgrade');
+            const btnTxt = isCurrent ? 'Current Plan' : (!sub ? 'Get Started' : PLANS[name].price > PLANS[sub.plan].price ? 'Upgrade' : 'Downgrade');
+            return `
+                <div class="plan-card ${isCurrent ? 'current-plan' : ''}">
+                    <div class="plan-card-name">${name}</div>
+                    <div class="plan-card-price">$${data.price}<small>/mo</small></div>
+                    <ul class="plan-card-features">
+                        ${data.features.map(f => `<li><i class="ph ph-check"></i>${f}</li>`).join('')}
+                    </ul>
+                    <button class="plan-select-btn ${btnCls}" ${isCurrent ? 'disabled' : `onclick="selectPlan('${name}')"`}>${btnTxt}</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function selectPlan(planName) {
+        const sub = getSub();
+        const plan = PLANS[planName];
+        const now = new Date();
+        const nextBilling = new Date(now);
+        nextBilling.setMonth(nextBilling.getMonth() + 1);
+
+        const newSub = {
+            plan: planName,
+            price: plan.price,
+            startDate: now.toISOString(),
+            nextBilling: nextBilling.toISOString(),
+            status: 'active',
+            card: sub ? sub.card : { last4: Math.floor(1000 + Math.random() * 9000), brand: 'Visa' }
+        };
+        saveSub(newSub);
+
+        // Add billing record
+        const billing = getBilling();
+        billing.unshift({
+            id: 'inv-' + Date.now(),
+            date: now.toISOString(),
+            description: `${planName} Plan — Monthly`,
+            amount: plan.price,
+            status: 'paid'
+        });
+        saveBilling(billing);
+
+        renderSubscription();
+        showToast(`Switched to ${planName} plan!`);
+    }
+
+    function cancelSubscription() {
+        saveSub(null);
+        renderSubscription();
+        showToast('Subscription cancelled', 'ph-x-circle');
+    }
+
+    // ── Billing ───────────────────────────────────────────────────────────
+    function renderBilling() {
+        const sub = getSub();
+        const billing = getBilling();
+
+        // Card preview
+        const cardEl = document.getElementById('billingCardPreview');
+        if (sub) {
+            cardEl.innerHTML = `
+                <div class="billing-card-top">
+                    <div class="billing-chip"></div>
+                    <div class="billing-card-brand">${sub.card.brand}</div>
+                </div>
+                <div class="billing-card-number">•••• •••• •••• ${sub.card.last4}</div>
+                <div class="billing-card-bottom">
+                    <div><div class="lbl">Card Holder</div><div class="val">${user.name.toUpperCase()}</div></div>
+                    <div><div class="lbl">Expires</div><div class="val">12/27</div></div>
+                </div>
+            `;
+        } else {
+            cardEl.innerHTML = `<div style="color:#444;font-size:0.85rem;text-align:center;padding:2rem 0;">No card on file. Subscribe to a plan to add payment details.</div>`;
+        }
+
+        // Billing table
+        const tbody = document.getElementById('billingTbody');
+        if (billing.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#555;padding:2rem;">No payment history yet.</td></tr>`;
+        } else {
+            tbody.innerHTML = billing.map(b => `
+                <tr>
+                    <td>${new Date(b.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</td>
+                    <td>${b.description}</td>
+                    <td class="amount">$${b.amount.toFixed(2)}</td>
+                    <td><span class="billing-badge-paid"><i class="ph ph-check"></i> Paid</span></td>
+                </tr>
+            `).join('');
+        }
+    }
+
+    function updateCard() {
+        showToast('Card update flow coming soon!', 'ph-credit-card');
+    }
+
+    // ── Profile ───────────────────────────────────────────────────────────
+    function renderProfile() {
+        const sub = getSub();
+        const ini = initials(user.name);
+        document.getElementById('profileAvatar').textContent = ini;
+        document.getElementById('profileName').textContent = user.name;
+        document.getElementById('profileEmail').textContent = user.email;
+        document.getElementById('profileNameInput').value = user.name;
+        document.getElementById('profileEmailInput').value = user.email;
+        document.getElementById('profilePlanBadge').innerHTML = sub
+            ? `<span style="background:rgba(220,38,38,0.15);color:#dc2626;font-size:0.72rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:20px;">${sub.plan} Member</span>`
+            : `<span style="background:#222;color:#888;font-size:0.72rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:20px;">No Active Plan</span>`;
+    }
+
+    function saveProfile() {
+        const newName = document.getElementById('profileNameInput').value.trim();
+        const newEmail = document.getElementById('profileEmailInput').value.trim();
+        if (!newName || !newEmail) { showToast('Fill in all fields', 'ph-warning'); return; }
+        user.name = newName;
+        user.email = newEmail;
+        localStorage.setItem('fitzone_user', JSON.stringify(user));
+        document.getElementById('topbarAvatar').textContent = initials(newName);
+        document.getElementById('topbarName').textContent = newName.split(' ')[0];
+        renderProfile();
+        showToast('Profile updated!');
+    }
+
+    function changePassword() {
+        const cur = document.getElementById('pwCurrent').value;
+        const nw = document.getElementById('pwNew').value;
+        const cf = document.getElementById('pwConfirm').value;
+        if (!cur || !nw || !cf) { showToast('Fill in all fields', 'ph-warning'); return; }
+        if (cur !== user.password) { showToast('Current password incorrect', 'ph-warning'); return; }
+        if (nw !== cf) { showToast('Passwords do not match', 'ph-warning'); return; }
+        if (nw.length < 6) { showToast('Password too short (min 6 chars)', 'ph-warning'); return; }
+        user.password = nw;
+        localStorage.setItem('fitzone_user', JSON.stringify(user));
+        document.getElementById('pwCurrent').value = '';
+        document.getElementById('pwNew').value = '';
+        document.getElementById('pwConfirm').value = '';
+        showToast('Password updated!');
+    }
+
+    // ── Logout ────────────────────────────────────────────────────────────
+    function logout() {
+        localStorage.removeItem('fitzone_user');
+        window.location.href = 'project1.html';
+    }
+
+    // ── Seed demo data ─────────────────────────────────────────────────────
+    function seedDemoData() {
+        if (!getSub()) {
+            const now = new Date();
+            const nb = new Date(now); nb.setMonth(nb.getMonth() + 1);
+            saveSub({ plan: 'Premium', price: 99, startDate: now.toISOString(), nextBilling: nb.toISOString(), status: 'active', card: { last4: '4242', brand: 'Visa' } });
+        }
+        if (getBilling().length === 0) {
+            const entries = [];
+            for (let i = 3; i >= 0; i--) {
+                const d = new Date(); d.setMonth(d.getMonth() - i);
+                entries.push({ id: 'inv-demo-' + i, date: d.toISOString(), description: 'Premium Plan — Monthly', amount: 99, status: 'paid' });
+            }
+            saveBilling(entries);
+        }
+        if (getBookings().length === 0) {
+            const bks = [];
+            const baseClass = [
+                { className: 'HIIT Training', time: '6:00 PM', trainer: 'Coach Mike' },
+                { className: 'Yoga Flow',     time: '7:00 AM', trainer: 'Instructor Sarah' },
+                { className: 'Spinning',      time: '5:30 PM', trainer: 'Coach Jordan' },
+            ];
+            baseClass.forEach((cls, i) => {
+                const d = new Date(); d.setDate(d.getDate() - (i * 3 + 2));
+                bks.push({ id: 'bk-demo-' + i, ...cls, date: d.toISOString().split('T')[0], status: 'past', bookedAt: d.toISOString() });
+            });
+            const upcoming = new Date(); upcoming.setDate(upcoming.getDate() + 3);
+            bks.push({ id: 'bk-demo-up', className: 'HIIT Training', time: '6:00 PM', trainer: 'Coach Mike', date: upcoming.toISOString().split('T')[0], status: 'upcoming', bookedAt: new Date().toISOString() });
+            saveBookings(bks);
+        }
+    }
+
+    seedDemoData();
+    renderOverview();
+    </script>
+</body>
+</html>
