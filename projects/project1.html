@@ -424,7 +424,28 @@
             color: #737373;
             font-size: 0.9rem;
         }
-        
+
+        .class-book-btn {
+            display: block;
+            width: 100%;
+            margin-top: 1.25rem;
+            padding: 0.65rem 1.5rem;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .class-book-btn:hover {
+            background: #b91c1c;
+            transform: scale(1.02);
+        }
+
         .pricing-section {
             padding: 6rem 2rem;
             background: linear-gradient(135deg, #0a0a0a 0%, #171717 100%);
@@ -964,7 +985,7 @@
         
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon"><i class="ph ph-barbell"></i></div>
+                <div class="feature-icon"><i class="ph ph-whistle"></i></div>
                 <h3 class="feature-title">Personal Training</h3>
                 <p class="feature-text">One-on-one sessions with certified trainers who create customized workout plans tailored to your goals and fitness level.</p>
             </div>
@@ -1065,25 +1086,29 @@
                 <h3 class="class-title">HIIT Training</h3>
                 <p class="class-desc">High-intensity interval training for maximum calorie burn</p>
                 <div class="class-time">Mon, Wed, Fri • 6:00 PM</div>
+                <button class="class-book-btn">Book Now</button>
             </div>
             <div class="class-card">
                 <h3 class="class-title">Yoga Flow</h3>
                 <p class="class-desc">Restorative yoga sessions for flexibility and mindfulness</p>
                 <div class="class-time">Tue, Thu • 7:00 AM</div>
+                <button class="class-book-btn">Book Now</button>
             </div>
             <div class="class-card">
                 <h3 class="class-title">Spinning</h3>
                 <p class="class-desc">High-energy cycling classes with music</p>
                 <div class="class-time">Daily • 5:30 PM</div>
+                <button class="class-book-btn">Book Now</button>
             </div>
             <div class="class-card">
                 <h3 class="class-title">Strength Training</h3>
                 <p class="class-desc">Build muscle and increase strength</p>
                 <div class="class-time">Mon, Wed, Fri • 7:00 PM</div>
+                <button class="class-book-btn">Book Now</button>
             </div>
         </div>
     </section>
-    
+
     <section class="pricing-section fade-in-section" id="pricing">
         <h2 class="section-title">Membership Plans</h2>
         <p class="section-subtitle">Choose the plan that fits your fitness journey</p>
